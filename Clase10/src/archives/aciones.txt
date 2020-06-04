@@ -1,0 +1,6 @@
+Clases,<html><div align='center'>Clases a la comunidad que complementan el pensum.</div></html>,Clase10/resources/img/clases.png
+Clases Virtuales,<html><div align='center'>Cursos virtuales como medio de enseñanza.</div></html>,Clase10/resources/img/pantalla.png
+Generación de ideas,<html><div align='center'>Desarrollo de ideas con tecnologías actuales.</div></html>,Clase10/resources/img/ideas.png
+Notificaciones,<html><div align='center'>Notificaión el estado de tus cursos y actividades.</div></html>,Clase10/resources/img/celular.png
+Estadisticas,<html><div align='center'>Gestión de participación en nuestros cursos.</div></html>,Clase10/resources/img/estadisticas.png
+Dirección,<html><div align='center'>Damos direcciónamiento a nuestros estudiantes.</div></html>,Clase10/resources/img/direccion.png
