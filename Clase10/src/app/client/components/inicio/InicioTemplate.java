@@ -106,7 +106,7 @@ public class InicioTemplate extends JPanel{
 
         int numeroAccion=0;
         Accion accion = inicioComponent.obtenerAccion(numeroAccion);
-        while(accion!= null){
+        while(accion != null){
             AccionTemplate pAccion= new AccionComponent(
                 accion.getImagenAccion(), accion.getNombreAccion(), accion.getDescripcionAccion()
             ).getAccionTemplate();

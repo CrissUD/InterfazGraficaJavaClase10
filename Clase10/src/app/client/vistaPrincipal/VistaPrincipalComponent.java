@@ -78,17 +78,17 @@ public class VistaPrincipalComponent {
                 );
                 break;
             case "Cerrar Sesión":
+                this.loginComponent.restaurarValores();
                 this.loginComponent.getLoginTemplate().setVisible(true);
-                this.loginComponent.inicializar();
                 this.vistaPrincipalTemplate.setVisible(false);
                 break;
         }
         vistaPrincipalTemplate.repaint();
     }
 
-    public void inicializar(){
+    public void restaurarValores(){
         this.vistaPrincipalTemplate.getPPrincipal().add(inicioComponent.getInicioTemplate());
-        this.navegacionUsuarioComponent.setUsuario();
+        this.navegacionUsuarioComponent.actualizarValores();
     }
 
     public void moverVentana(int posicionX, int posicionY){

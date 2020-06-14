@@ -15,7 +15,7 @@ public class AccionService {
     private ArrayList<Accion> acciones;
 
 
-    private AccionService() {
+    public AccionService() {
         acciones = new ArrayList<Accion>();
         cargarDatos();
     }
@@ -55,9 +55,8 @@ public class AccionService {
     }
 
     public static AccionService getService(){
-        if(servicio == null){
+        if(servicio == null)
             servicio = new AccionService();
-        }
         return servicio;
     }
 }

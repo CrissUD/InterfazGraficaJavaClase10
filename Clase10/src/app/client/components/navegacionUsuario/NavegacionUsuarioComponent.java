@@ -16,13 +16,13 @@ public class NavegacionUsuarioComponent implements ActionListener, MouseListener
 
     private NavegacionUsuarioTemplate navegacionUsuarioTemplate;
     private VistaPrincipalComponent vistaPrincipalComponent;
-    private UsuarioService servicioUsuario;
+    private UsuarioService sUsuario;
     private Usuario usuarioLogeado;
 
     public NavegacionUsuarioComponent(VistaPrincipalComponent vistaPrincipalComponent) {
         this.vistaPrincipalComponent = vistaPrincipalComponent;
-        this.servicioUsuario = UsuarioService.getService();
-        this.usuarioLogeado = servicioUsuario.getUsuario();
+        this.sUsuario = UsuarioService.getService();
+        this.usuarioLogeado = sUsuario.getUsuarioLogeado();
         this.navegacionUsuarioTemplate = new NavegacionUsuarioTemplate(this);
     }
 
@@ -53,8 +53,8 @@ public class NavegacionUsuarioComponent implements ActionListener, MouseListener
         boton.setContentAreaFilled(false);
     }
 
-    public void setUsuario (){
-        this.usuarioLogeado = servicioUsuario.getUsuario();
+    public void actualizarValores (){
+        this.usuarioLogeado = sUsuario.getUsuarioLogeado();
         this.navegacionUsuarioTemplate.getPSuperior().removeAll();
         this.navegacionUsuarioTemplate.crearJLabels();
         this.navegacionUsuarioTemplate.repaint();

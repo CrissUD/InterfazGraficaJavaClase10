@@ -8,11 +8,11 @@ public class UsuarioService {
     private ControlUsuarios cUsuario;
     private String usuarioLogeado;
     
-    private UsuarioService() {
+    public UsuarioService() {
         cUsuario = new ControlUsuarios();
     }
 
-    public boolean verificarDatos(String nombreUsuario, String claveUsuario, String tipoUsuario){
+    public boolean verificarDatosUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario){
         if(cUsuario.verificarUsuario(nombreUsuario, claveUsuario, tipoUsuario)){
             this.usuarioLogeado = nombreUsuario;
             return true;
@@ -20,14 +20,13 @@ public class UsuarioService {
         return false;
     }
 
-    public Usuario getUsuario(){
+    public Usuario getUsuarioLogeado(){
         return cUsuario.devolverUsuario(usuarioLogeado);
     }
 
     public static UsuarioService getService(){
-        if(servicio == null){
+        if(servicio == null)
             servicio = new UsuarioService();
-        }
         return servicio;
     }
 }

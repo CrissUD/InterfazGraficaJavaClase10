@@ -16,13 +16,12 @@ public class LoginComponent implements ActionListener, MouseListener {
 
     private LoginTemplate loginTemplate;
     private VistaPrincipalComponent vistaPrincipal;
-    private UsuarioService servicioUsuario;
-    private String nombreUsuario;
+    private UsuarioService sUsuario;
     private JButton boton;
     private JLabel label;
 
     public LoginComponent() {
-        servicioUsuario = UsuarioService.getService();
+        sUsuario = UsuarioService.getService();
         this.loginTemplate = new LoginTemplate(this);
     }
 
@@ -102,28 +101,28 @@ public class LoginComponent implements ActionListener, MouseListener {
     }
 
     public void enviarDatosUsuario() {
-        nombreUsuario = loginTemplate.getTNombreUsuario().getText();
+        String nombreUsuario = loginTemplate.getTNombreUsuario().getText();
         String claveUsuario = new String(loginTemplate.getTClaveUsuario().getPassword());
         String tipoUsuario = ((String) loginTemplate.getCbTipoUsuario().getSelectedItem());
-        if(servicioUsuario.verificarDatos(nombreUsuario, claveUsuario, tipoUsuario)){
-            JOptionPane.showMessageDialog(null, "Registro Exitoso", "Advertencia", 1);
+        if(sUsuario.verificarDatosUsuario(nombreUsuario, claveUsuario, tipoUsuario)){
+            JOptionPane.showMessageDialog(null, "Ingreso Exitoso", "Advertencia", 1);
             entrar();
         }
         else
-            JOptionPane.showMessageDialog(null, "Algo quedo mal", "Advertencia", 1);    
+            JOptionPane.showMessageDialog(null, "Algo quedo mal", "Advertencia", 2);
     }
 
     public void entrar() {
         if (vistaPrincipal == null)
             this.vistaPrincipal = new VistaPrincipalComponent(this);
         else{
+            this.vistaPrincipal.restaurarValores();
             this.vistaPrincipal.getVistaPrincipalTemplate().setVisible(true);
-            this.vistaPrincipal.inicializar();
         }
         loginTemplate.setVisible(false);
     }
 
-    public void inicializar(){
+    public void restaurarValores(){
         this.getLoginTemplate().getTNombreUsuario().setText("Nombre Usuario");
         this.getLoginTemplate().getTNombreUsuario().setBorder(
             this.getLoginTemplate().getRecursosService().getBorderInferiorGris()
