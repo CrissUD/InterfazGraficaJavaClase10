@@ -13,7 +13,7 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 * Examinar las características principales de los servicios y su forma de construcción.
 * Reconocer el propósito del uso de Servicios dentro del proyecto para la obtención de información externa desde cualquier componente gráfico.
 * Identificar las distintas funcionalidades que puede tomar un servicio para el manejo de información externa.
-* Comprender la forma en que distintas partes de nuestro proyecto puede dar uso de servicios para obtener información.
+* Comprender la forma en que distintas partes de nuestro proyecto pueden dar uso de un servicio en común para obtener información.
 
 # Antes de Comenzar
 
@@ -72,7 +72,9 @@ En esta sesión vamos a ver el uso y características de los servicios y para el
 
 Antes hemos hablado de los **Componentes Gráficos** y sabemos hasta este punto que estos están conformados por una parte visual (**Template**), y una parte lógica (**Component**). Aunque la clase **Component** utiliza lógica detrás para que todas las funcionalidades del componente se puedan cumplir, hay acciones que no deben realizar, recordemos que esta clase se debe encargar unicamente de soportar la lógica que requiere el componente.
 
-Nuestras aplicaciónes de interfaz Gráfica siempre van a depender de la obtención de información externa que el usuario va a solicitar, ya sea de un servidor web, una base de datos externa, una Api etc. Podríamos delegar la obtención de esta información a nuestras clases **Components** y es una forma de hacerlo y funciona. Sin embargo esto va a restar reutilización y modularidad a nuestro proyecto. Esta información externa tiene ciertos datos que seguramente van a ser solicitados por varias partes de nuestro proyecto y si en cada componente que se necesite dicha información se va a consumir un mismo servicio web externo esto podría restar rendimiento, otra forma de hacerse es obtener la información externa una vez y empezar a pasar la información entre componentes, pero esta practica hará que nuestro proyecto sea muy acoplado entre componentes y exista una dependencia alta entre componentes gráficos.
+Nuestras aplicaciónes de interfaz Gráfica siempre van a depender de la obtención de información externa que el usuario va a solicitar, ya sea de un servidor web, una base de datos externa, una Api etc. Podríamos delegar la obtención de esta información a nuestras clases **Components** y es una forma de hacerlo y funciona. Sin embargo esto va a restar reutilización y modularidad a nuestro proyecto. Esta información externa tiene ciertos datos que seguramente van a ser solicitados por varias partes de nuestro proyecto y si en cada componente que se necesite dicha información se va a consumir un mismo servicio web externo esto podría restar rendimiento.
+
+Otra forma para obtener esta información sin afectar el rendimiento es obtener la información externa una vez y empezar a pasar la información entre componentes, pero esta practica hará que nuestro proyecto esté muy acoplado y exista una dependencia alta entre componentes gráficos.
 
 Podemos hacer uso de servicios que van a tener un propósito estrecho y bien definido y que puede encapsular alguna funcionalidad o información externa que será requerida por varias partes de nuestro proyecto. Estas clases entonces se encargan principalmente de contener la información que se va a obtener externamente. Pueden existir varios tipos de servicios:
 * **Servicios Lógicos:** Que se encargan de contener información externa y que sera solicitada por varas partes de nuestro proyecto. Siempre serán solicitados por las clases **Component** de nuestros componentes.
@@ -80,14 +82,14 @@ Podemos hacer uso de servicios que van a tener un propósito estrecho y bien def
 
 Independientemente de su propósito la estructura de un servicio es similar, podemos crear servicios **Singleton** o podemos realizar varios objetos de un servicio (Esto en ocasiones muy especiales).
 
-Antes hemos visto y usado a lo largo del curso el uso de **Servicios Gráficos**, hemos creado:
+Hemos visto a lo largo del curso el uso de **Servicios Gráficos**, hasta el momento hemos creado:
 * El servicio Gráfico **ObjGraficosService** encargado de encapsular la construcción de objetos gráficos.
 * El servicio Gráfico **RecursosService** encargado de la creación responsable de objetos decoradores que puedan ser solicitados por varios template.
 
 En los anteriores servicios podemos ver los dos propósitos principales de los servicios:
 
 * **Contener Funcionalidad**: En el servicio **ObjGraficosService** tenemos encapsulada una funcionalidad que es usada por la mayoría de clases Template que hemos creado. Este servicio contiene una serie de métodos encargados de la construcción de objetos gráficos y que ayuda a las clases **Template** con el proceso de **creación de objetos gráficos**. Esta funcionalidad es común y general por lo que permite que se use en varias partes del proyecto e incluso en varios proyectos.
-* **Contener Información**: En el servicio **RecursosService** de alguna manera se esta conteniendo información, no es información externa evidentemente ni tampoco información compuesta de datos comúnes. Pero si se ve a nivel general este servicio crea objetos decoradores (información) que sera solicitada desde varias partes de nuestro proyecto.
+* **Contener Información**: En el servicio **RecursosService** de alguna manera se esta conteniendo información, no es información externa evidentemente ni tampoco información compuesta de datos comúnes. Pero desde una perspectiva general este servicio crea objetos decoradores (información) que sera solicitada desde varias partes de nuestro proyecto.
 
 Ahí esta la clave del uso de los servicios, estos son solicitados por varias partes del proyecto y evita el acoplamiento extremo entre componentes gráficos. Por ejemplo si el servicio **RecursosService** no existiera pero se quisiera controlar la creación de objetos decoradores como colores, fuentes etc. La única forma de realizar esto es creándolos todos desde la clase **App** y empezar a repartir estos objetos mediante los constructores de los componentes y esto generaría un altísimo acoplamiento entre clases.
 
@@ -114,7 +116,7 @@ Pueden notar que el archivo plano contiene cierta información sobre cada acció
 * **Descripción de Acción** Note que esta insertada de una vez la propiedad html para que el texto este centrado y con saltos de linea.
 * **Dirección de Imagen**
 
-Ahora vamos a crear nuestro servicio **AccionService**, esta clase la creamos dentro del paquete servicios:
+Ahora vamos a crear nuestro servicio **AccionService**, esta clase la creamos dentro del paquete **Services**:
 
 <div align='center'>
     <img  src='https://i.imgur.com/FxT01bH.png'>
@@ -143,6 +145,11 @@ public static AccionService getService(){
 * Como dijimos el constructor lo vamos a dejar publico (es decir en su forma normal) por los casos que explicamos antes.
 
 Antes de continuar con nuestro servicio vamos a crear otro paquete desde la carpeta raíz **src**, la cual llamaremos **models**, adentro vamos  a crear una clase llamada **Accion** y sera la representación en objeto de las acciones. 
+
+<div align='center'>
+    <img  src='https://i.imgur.com/usKErN0.png'>
+    <p>Creación de paquete models y la clase Accion.java</p>
+</div>
 
 * Dentro de esta clase vamos a declarar los atributos:
 ```javascript
@@ -185,6 +192,7 @@ Ahora nos vamos a ubicar nuevamente en el servicio **AccionService**, este servi
 
 * **Declaración:**
 ```javascript
+// Dentro del servicio AccionService
 private ArrayList<Accion> acciones;
 ```
 
@@ -194,6 +202,8 @@ public AccionService() {
     acciones = new ArrayList<Accion>();
 }
 ```
+
+***Nota:** Entre los signos **<>** esta el tipo de objetos que va a contener, en este caso nuestro arreglo **acciones** va a contener objetos de tipo **Accion**, recordemos que aunque es dinámico, al ser un arreglo solo puede contener un solo tipo de dato.*
 
 Como este servicio se va a encargar de obtener la información externa, tenemos que crear un método encargado de recibir la información del archivo plano. Recordemos que estamos en un caso en el que la información externa no proviene de ninguna fuente de almacenamiento externa sino que estamos suponiendo que es información que solo se esta necesitando en el Frontend para fines visuales.
 
@@ -230,6 +240,15 @@ El anterior código se encarga de leer la información contenida en el archivo p
     <p>Explicación de código de obtención de información del archivo plano</p>
 </div>
 
+Para que la información pueda ser cargada una vez se obtenga el servicio vamos a llamar este método desde el constructor:
+
+```javascript
+public AccionService() {
+    acciones = new ArrayList<Accion>();
+    cargarDatos();
+}
+```
+
 Ahora vamos a crear un método encargado de retornar una accion cuando algún componente gráfico lo necesite:
 
 * El método debe retornar un objeto tipo **Accion** y debe recibir por parámetro un entero que representa la posición en el arreglo de la accion que necesitamos.
@@ -239,7 +258,7 @@ public Accion devolverAccion(int posicion){
 }
 ```
 
-* Vamos a realizar el contenido mediante un **try/catch**. Esto se realizar para el control de errores, vamos a intentar realizar una accion dentro del try, en caso de que se genere un error podemos gestionar el error a traves del catch.
+* Vamos a realizar el contenido mediante un **try/catch**. Esto se realizar para el control de errores. Vamos a intentar retornar un objeto **Accion** dentro del try, en caso de que se genere un error  en el momento de retornar una acción podemos gestionar el error a traves del catch.
 
 ```javascript
 public Accion devolverAccion(int posicion){
@@ -302,7 +321,7 @@ Ahora nos ubicamos en la clase **InicioTemplate** y recordamos un poco como esta
     <p>Creación manual del Componente Gráfico Accion</p>
 </div>
 
-Bueno, ahora que tenemos la información de todas las acciones podemos automatizar la creación del componente gráfico **Acción** varias veces. Vamos a borrar la creación manual de todas las acciones y dejamos la creación del título intacta:
+Bueno, ahora que tenemos la información de todas las acciones, podemos automatizar la creación del componente gráfico **Acción** varias veces (Aprovechando también la reutilización de componentes). Vamos a borrar la creación manual de todas las acciones y dejamos la creación del título intacta:
 
 ```javascript
 public void crearContenidoPAcciones(){
@@ -318,11 +337,8 @@ Vamos ahora a crear un **Contador** esta variable nos va a servir como la posici
 
 ```javascript
 public void crearContenidoPAcciones(){
-    this.lAcciones = sObjGraficos.construirJLabel(
-        "Nuestros Servicios", 10, 10, 160, 30, null, sRecursos.getColorAzul(), 
-        null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pAcciones.add(lAcciones);
+    // Creación del Titulo
+    ...
 
     int numeroAccion=0;
 }
@@ -332,12 +348,9 @@ Vamos a crear un objeto de tipo **Accion** (que se encuentra en nuestra carpeta 
 
 ```javascript
 public void crearContenidoPAcciones(){
-    this.lAcciones = sObjGraficos.construirJLabel(
-        "Nuestros Servicios", 10, 10, 160, 30, null, sRecursos.getColorAzul(), 
-        null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pAcciones.add(lAcciones);
-
+    // Creación del Titulo
+    ...
+    
     int numeroAccion=0;
     Accion accion = inicioComponent.obtenerAccion(numeroAccion);
 }
@@ -349,12 +362,9 @@ Vamos a crear ahora un ciclo **while** y la condición para que el ciclo continu
 
 ```javascript
 public void crearContenidoPAcciones(){
-    this.lAcciones = sObjGraficos.construirJLabel(
-        "Nuestros Servicios", 10, 10, 160, 30, null, sRecursos.getColorAzul(), 
-        null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pAcciones.add(lAcciones);
-
+    // Creación del Titulo
+    ...
+    
     int numeroAccion=0;
     Accion accion = inicioComponent.obtenerAccion(numeroAccion);
     while(accion != null){
@@ -369,12 +379,9 @@ Como ya recibimos nuestra primera accion antes de entrar al ciclo la condición 
 
 ```javascript
 public void crearContenidoPAcciones(){
-    this.lAcciones = sObjGraficos.construirJLabel(
-        "Nuestros Servicios", 10, 10, 160, 30, null, sRecursos.getColorAzul(), 
-        null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pAcciones.add(lAcciones);
-
+    // Creación del Titulo
+    ...
+    
     int numeroAccion=0;
     Accion accion = inicioComponent.obtenerAccion(numeroAccion);
     while(accion != null){
@@ -396,12 +403,9 @@ Debemos pasarle esos argumentos y para eso usaremos nuestro objeto **accion**, v
 
 ```javascript
 public void crearContenidoPAcciones(){
-    this.lAcciones = sObjGraficos.construirJLabel(
-        "Nuestros Servicios", 10, 10, 160, 30, null, sRecursos.getColorAzul(), 
-        null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pAcciones.add(lAcciones);
-
+    // Creación del Titulo
+    ...
+    
     int numeroAccion=0;
     Accion accion = inicioComponent.obtenerAccion(numeroAccion);
     while(accion != null){
@@ -416,12 +420,9 @@ Ahora el editor muy seguramente nos debe estar sacando error y esto es por que l
 
 ```javascript
 public void crearContenidoPAcciones(){
-    this.lAcciones = sObjGraficos.construirJLabel(
-        "Nuestros Servicios", 10, 10, 160, 30, null, sRecursos.getColorAzul(), 
-        null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pAcciones.add(lAcciones);
-
+    // Creación del Titulo
+    ...
+    
     int numeroAccion=0;
     Accion accion = inicioComponent.obtenerAccion(numeroAccion);
     while(accion != null){
@@ -436,11 +437,9 @@ Nuestro componente **Accion** ya ha sido ejemplificado de manera exitosa, sin em
 
 ```javascript
 public void crearContenidoPAcciones(){
-    this.lAcciones = sObjGraficos.construirJLabel(
-        "Nuestros Servicios", 10, 10, 160, 30, null, sRecursos.getColorAzul(), 
-        null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pAcciones.add(lAcciones);
+    // Creación del Titulo
+    ...
+    
 
     int numeroAccion=0;
     Accion accion = inicioComponent.obtenerAccion(numeroAccion);
@@ -469,11 +468,9 @@ Para finalizar el ciclo de manera correcta debemos:
 
 ```javascript
 public void crearContenidoPAcciones(){
-    this.lAcciones = sObjGraficos.construirJLabel(
-        "Nuestros Servicios", 10, 10, 160, 30, null, sRecursos.getColorAzul(), 
-        null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pAcciones.add(lAcciones);
+    // Creación del Titulo
+    ...
+    
 
     int numeroAccion=0;
     Accion accion = inicioComponent.obtenerAccion(numeroAccion);
