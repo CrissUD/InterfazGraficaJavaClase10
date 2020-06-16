@@ -496,9 +496,9 @@ Nuestras Acciones están listas y se muestran correctamente, podemos ejecutar la
     <p>Componentes Accion creados de forma automática.</p>
 </div>
 
-Ya realizamos la automatización de la creación de **componentes gráficos reutilizables** y es un complemento de lo que habíamos visto previamente sobre ese tema. Sin embargo vale la pena aclarar que el fin del servicio **AccionService** no es solamente poder realizar esta automatización como lo explicamos previamente es para contener la información de estas acciónes que se puedan usar en varias partes de nuestro proyecto. Una excelente forma de poder usar este servicio en otra parte de nuestro proyecto es creando otro componente por ejemplo que muestre mas información de cada acción y una vez se oprima en cualquiera de los paneles de acción que mostramos en pantalla este abra ese componente. De esta forma no tenemos que realizar un traspaso de información entre componentes sino que el nuevo componente puede llamar al servicio para obtener la información de ese componente que necesita. 
+Ya realizamos la automatización de la creación de **componentes gráficos reutilizables** y es un complemento de lo que habíamos visto previamente sobre ese tema. Sin embargo vale la pena aclarar que el fin del servicio **AccionService** no es solamente poder realizar esta automatización, como lo explicamos previamente es para contener la información de estas acciónes que se puedan usar en varias partes de nuestro proyecto. Una excelente forma de usar este servicio en otra parte de nuestro proyecto es creando otro componente por ejemplo que muestre mas información de cada acción y una vez se oprima en cualquiera de los paneles de acción que mostramos en pantalla, este abra ese nuevo componente. De esta forma no tenemos que realizar un traspaso de información entre componentes sino que el nuevo componente puede llamar al servicio para obtener la información de la acción que necesita. 
 
-Esta acción no se realizara en el momento, pero para explicar lo anterior referente al uso compartido de servicios lógicos vamos a ver en la siguiente sección el uso de otro servicio que si nos conviene realizar en el momento y que se necesita en varias partes del proyecto.
+Esta acción no se realizará en el momento, pero para explicar lo anterior referente al uso compartido de servicios lógicos vamos a ver en la siguiente sección el uso de otro servicio que si nos conviene realizar y que se necesita en varias partes del proyecto.
 
 ***Nota:** Como ya realizamos la automatización de los paneles de accion podemos borrar las imágenes que habíamos creado en la clase **InicioTemplate** y que contenía estas imágenes ya que no las estamos usando mas, de esta forma el método **crearObjetosDecoradores()** queda asi:*
 
@@ -509,7 +509,7 @@ Esta acción no se realizara en el momento, pero para explicar lo anterior refer
 
 # Servicio que recibe información externa
 
-Este tipo de servicios no contienen la información externa directamente, sino que deben obtenerla desde alguna parte externa primero, estos pueden ser algún servidor externo. alguna base de datos externa etc. Para este caso vamos a manejar la información de los usuarios que ya están registrados en el sistema y que solo ellos pueden entrar. Esta información esta contenida en el archivo plano **usuarios.txt**.
+Este tipo de servicios no contienen la información externa directamente, sino que deben obtenerla desde algún sistema alejo primero, estos pueden ser algún servidor externo. alguna base de datos externa etc. Para este caso vamos a manejar la información de los usuarios que ya están registrados en el sistema y que solo ellos pueden entrar. Esta información esta contenida en el archivo plano **usuarios.txt**.
 
 <div align='center'>
     <img  src='https://i.imgur.com/Qz1rnIs.png'>
@@ -517,7 +517,7 @@ Este tipo de servicios no contienen la información externa directamente, sino q
 </div>
 
 
-Vemos que la información incluye el **Nombre del usuario, clave del usuario, tipo usuario, imagen usuario.** Para aclarar normalmente las contraseñas se guardan en las bases de datos de forma encriptada, sin embargo esos son temas del Backend que este curso no va a tocar,  en este caso solo se simula un ejemplo de información externa.
+Vemos que la información incluye el **Nombre del usuario, clave del usuario, tipo usuario e imagen usuario.** Para aclarar normalmente las contraseñas se guardan en las bases de datos de forma encriptada, sin embargo esos son temas del Backend que este curso no va a tocar,  en este caso solo se simula un ejemplo de información externa.
 
 Igual que como hicimos con las acciones vamos a crear un objeto en el modelo que representara el objeto de los usuarios:
 
@@ -655,7 +655,7 @@ public static UsuarioService getService(){
 }
 ```
 
-* El constructor lo dejamos publico como ya explicamos en esta sesión.
+* El constructor lo dejamos publico como ya explicamos en la anterior sección.
 
 * Este servicio va contener dos atributos que serán de vital importancia, un atributo sera el objeto del controlador para que exista una comunicación hacia ese controlador, la otra sera un string que contiene que usuario sera logeado y se explicara su funcionalidad más adelante.
 
@@ -680,12 +680,12 @@ Para realizar la validación se va a verificar tres cosas:
 * Contraseña del usuario.
 * Tipo del usuario.
 
-Para que una persona pueda ingresar a nuestra aplicación debe registrar esos tres datos y estos deben estar guardados en el lugar de persistencia de datos (En este ejercicio el archivo plano), ademas de eso los 3 datos deben coincidir para un mismo usuario, de lo contrario no podrá entrar. 
-Sin embargo esta gestión de verificación del usuario no la debe realizar la parte Frontend de un proyecto, normalmente esto lo realiza el Backend de los proyectos y el proyecto del cliente solo recibe la respuesta de la validación una vez enviá los datos que el usuario ha registrado.
+Para que una persona pueda ingresar a nuestra aplicación debe proporcionar esos tres datos y estos deben estar guardados en el lugar de persistencia de datos (En este ejercicio el archivo plano), ademas de eso los 3 datos deben coincidir para un mismo usuario, de lo contrario no podrá entrar. 
+Sin embargo esta gestión de verificación del usuario no la debe realizar la parte Frontend de un proyecto, normalmente esto lo realiza el Backend y el proyecto del cliente solo recibe la respuesta de la validación una vez enviá los datos que el usuario ha proporcionado.
 
 Para simular esto vamos a realizar la respectiva validación dentro de la clase **ControlUsuarios** que recordemos es una clase externa de nuestro proyecto y solo la usamos por motivos de simulación de una aplicación real.
 
-Dentro de esta clase vamos a crear el método **VerificarUsuario** el cual va a recibir por parámetro 
+Dentro de esta clase vamos a crear el método **VerificarUsuario** el cual va a recibir por parámetros 
 * **String nombreUsuario**
 * **String claveUsuario** 
 * **String tipoUsuario**
@@ -720,9 +720,9 @@ public boolean verificarUsuario(String nombreUsuario, String claveUsuario, Strin
 }
 ```
 
-En la anterior validación estamos indicando que si en algún momento del recorrido del arreglo encuentra un objeto **Usuario** que cumple con la igualdad de los 3 datos dados por el usuario va a retornar un **True** indicando que se ha realizado la validación satisfactoriamente, en caso de no encontrar ningún objeto **Usuario** que cumpla con los requisitos se saldrá del ciclo y retornara un **False** indicando que el usuario no existe en el sistema.
+En la anterior validación estamos indicando que si en algún momento del recorrido del arreglo encuentra un objeto **Usuario** que cumple con la igualdad de los 3 datos dados por el usuario, se va a retornar un **True** indicando que se ha realizado la validación satisfactoriamente, en caso de no encontrar ningún objeto **Usuario** que cumpla con los requisitos se saldrá del ciclo y retornara un **False** indicando que el usuario no existe en el sistema.
 
-Ahora vamos a ir a la clase de nuestro servicio **UsuarioService** que es la clase dentro de nuestro proyecto que se va a comunicar directamente con el control externo. Allí vamos a crear un nuevo método al cual llamaremos **verificarDatosUsuario** el cual recibirá de nuevo los tres datos que el usuario proporcionara y de igual forma retornara un **boolean**.
+Ahora vamos a ir a la clase de nuestro servicio **UsuarioService** que es la clase dentro de nuestro proyecto que se va a comunicar directamente con el control externo. Allí vamos a crear un nuevo método al cual llamaremos **verificarDatosUsuario** el cual recibirá de nuevo los tres datos que el usuario proporcionará y de igual forma retornara un **boolean**.
 
 ```javascript
 public boolean verificarDatosUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario){
@@ -742,7 +742,7 @@ public boolean verificarDatosUsuario(String nombreUsuario, String claveUsuario, 
 }
 ```
 
-Noten que dentro de un If hemos llamado al método del Controlador, en caso de que este retorne un **True** va a entrar dentro de las instrucciones dadas dentro del IF, en este caso será que si el usuario efectivamente proporciono los datos de un usuario registrado va a igualar el atributo **usuarioLogeado** con el nombre del usuario que escribió el cliente.
+Noten que dentro del **If** hemos llamado al método del Controlador, en caso de que este retorne un **True** va a entrar dentro de las instrucciones dadas dentro de el, en este caso será que si el usuario efectivamente proporciono los datos de un usuario registrado va a igualar el atributo **usuarioLogeado** con el nombre del usuario que escribió el cliente.
 En caso de que la verificación haya retornado un **False** este método de igual forma retornara el **False**.
 
 
@@ -768,7 +768,7 @@ Recordando un poco, una vez el usuario oprime el botón de entrar dentro del Log
     <p>Evento una vez se oprime el botón entrar del Login</p>
 </div>
 
-Bueno ahora vamos a cambiar un poco esa funcionalidad, ahora no vamos a mostrar esos datos, eso solo se hizo como una prueba para ver como se realizaba el recibimiento de información desde la parte gráfica. Para empezar vamos a cambiar el nombre del método **mostrarDatosUsuario** por **enviarDatosUsuario**, y vamos a quitar el llamado del método entrar, ya que ahora solo podrá entrar en el caso de que el usuario este registrado.
+Bueno ahora vamos a cambiar un poco esa funcionalidad, ya no vamos a mostrar esos datos, eso solo se hizo como una prueba para ver como se realizaba el recibimiento de información desde la parte gráfica. Para empezar vamos a cambiar el nombre del método **mostrarDatosUsuario** por **enviarDatosUsuario**, y vamos a quitar el llamado del método entrar, ya que ahora solo podrá entrar en el caso de que el usuario este registrado.
 
 ```javascript
 @Override
@@ -827,9 +827,10 @@ Ahora queremos que una vez el usuario haya entrado exitosamente los datos de est
     <p>Información estática del usuario</p>
 </div>
 
-Para cambiar esta información vamos a llamar al servicio **UsuarioService** desde el componente **NavegaciónUsuario** para conseguir los datos del usuario que se ha logueado. Pero primero vamos a configurar al controlador de usuarios creando un método que retorne a un usuario de acuerdo a su nombre, vamos entonces a la clase **ControlUsuarios** y realizamos el siguiente método:
+Para cambiar esta información vamos a llamar al servicio **UsuarioService** desde el componente **NavegaciónUsuario** para conseguir los datos del usuario que se ha logueado. Pero primero vamos a configurar al controlador **ControlUSuarios** creando un método que retorne a un usuario de acuerdo a su nombre, vamos entonces a la clase **ControlUsuarios** y realizamos el siguiente método:
 
 ```javascript
+// Dentro de la clase ControlUsuarios
 public Usuario devolverUsuario(String nombreUsuario){
     for(Usuario usuario : usuarios){
         if(usuario.getNombreUsuario().equals(nombreUsuario))
@@ -844,6 +845,7 @@ En el anterior método **devolverUsuario** recibimos por parámetro un String qu
 Ahora dentro del servicio **UsuarioService** crearemos un método para poder obtener dicho usuario:
 
 ```javascript
+// Dentro del servicio UsuarioService
 public Usuario getUsuarioLogeado(){
     return cUsuario.devolverUsuario(usuarioLogeado);
 }
@@ -872,14 +874,19 @@ private UsuarioService sUsuario;
 this.sUsuario = UsuarioService.getService();
 ```
 
-Vamos a crear un atributo que se llamara **usuarioLogeado** y sera de tipo **Usuario** para obtener el objeto del usuario logueado. 
+Vamos a crear un atributo que se llamara **usuarioLogeado** y sera de tipo **Usuario**, una vez declarado, usaremos el servicio **UsuarioService** para obtener el objeto del usuario logueado. 
 
 * **Declaración:**
 ```javascript
 // Dentro de la clase NavegacionUsuarioComponent
-this.usuarioLogeado = sUsuario.getUsuarioLogeado();
+private Usuario usuarioLogeado;
 ```
 
+* **Obtención del objeto del usuario que ha ingresado:**
+```javascript
+// Dentro del constructor
+this.usuarioLogeado = sUsuario.getUsuarioLogeado();
+```
 Finalmente vamos a crear su método **get**, esto para que pueda ser obtenido por su clase compañera **Template**:
 
 ```javascript
@@ -909,18 +916,18 @@ Vamos a realizar unas pruebas a ver que sucede:
     <p>Prueba 2 de ingreso de usuario</p>
 </div>
 
-Esto funciona como esperábamos, sin embargo las dos pruebas anteriores se realizaron por separado, en el caso en que desde una sola ejecución del programa un usuario ingrese y luego cierre sesión para que después entre otro usuario se van a ver los datos del anterior usuario. Esto es por que el programa requiere de una actualización no solo de esa parte, también existen otras partes que requieren ser actualizadas y se mencionaran en la siguiente sección.
+Esto funciona como esperábamos, sin embargo las dos pruebas anteriores se realizaron por separado, en el caso en que desde una sola ejecución del programa un usuario ingrese, cierre sesión y después entre otro usuario, se van a ver los datos del anterior usuario. Esto es por que el programa requiere de una actualización no solo de esa parte, también existen otras partes que requieren ser actualizadas y se mencionaran en la siguiente sección.
 
-Por otra parte el uso del servicio **UsuarioService** cobra vital importancia ya que es un servicio que se esta utilizando en varias partes del proyecto, en este caso lo usamos en el componente **login** y el componente **navegacionUsuario** y posiblemente se pueda usar en el componente **perfil** también. Noten que ambos componentes usaron el servicio de forma independiente sin tener que estar comunicados entre ellos, en este caso el uso del atributo **usuariologeado** fue crucial para realizar esta independencia, si no existiera este atributo no habría manera de que el componente **navegacionUsuario** sepa que usuario ha ingresado, la única forma de poder saberlo sin el uso del servicio es que el componente **login** le pase el dato del usuario que ingreso al componente **vistaPrincipal** y luego este ultimo se lo pase al componente **navegacionUsuario** y se formaría una dependencia entre componentes muy alta y solo en este caso, imaginen con otras acciones cuanta dependencia mas habría. Es por eso que el uso de servicios se hace especialmente importante en estos casos, siempre hay que encontrar la manera de que estos servicios puedan proporcionar independencia del uso de la información a traves de el y evitar el acoplamiento y envió de información entre componentes que no estar correlacionados.
+Por otro lado el uso del servicio **UsuarioService** cobra vital importancia ya que es un servicio que se esta utilizando en varias partes del proyecto, en este caso lo usamos en el componente **login** y el componente **navegacionUsuario** y posiblemente se pueda usar en el componente **perfil** también. Noten que ambos componentes usaron el servicio de forma independiente sin tener que estar comunicados entre ellos, en este caso el uso del atributo **usuarioLogeado** fue crucial para realizar esta independencia, si no existiera este atributo no habría manera de que el componente **navegacionUsuario** sepa que usuario ha ingresado, la única forma de poder saberlo sin el uso del servicio es que el componente **login** le pase el dato del usuario que ingreso al componente **vistaPrincipal** y luego este ultimo se lo pase al componente **navegacionUsuario** y se formaría una dependencia entre componentes muy alta y solo en este caso, imaginen con otras acciones cuanta dependencia mas habría. Es por eso que el uso de servicios se hace especialmente importante en estos casos, siempre hay que encontrar la manera de que estos servicios puedan proporcionar independencia del uso de la información a traves de el y evitar el acoplamiento y envió de información entre componentes que no estar correlacionados.
 
 # Ajustes de nuestro proyecto para el uso de servicios
 
 Como se menciono en la anterior sección, hay partes del proyecto que requieren una actualización, a continuación se mencionan algunas de ellas:
 * Cuando dos usuarios entran al sistema a traves del login, es necesario actualizar los datos del componente **navegacionUsuario** para que se vean los datos del ultimo usuario que ingreso.
 * Cuando un usuario cierra sesión y se ve nuevamente el Login, este tiene aun los datos que escribió el usuario cuando ingreso, se debería ver justo como cuando se inicia la aplicación
-* Cuando ingresamos por segunda vez en una misma ejecución no se muestra el componente **inicio** se ve vacía la parte del panel principal.
+* Cuando ingresamos por segunda vez en una misma ejecución a la vista principal, no se muestra el componente **inicio** y se ve vacía la parte del panel principal.
 
-Vamos a realizar estas respectivas actualizaciones. Empecemos con el componente **login**, vamos a crear un método que se va a llamar **restaurarValores** dentro de este vamos a dejar todo como cuando el usuario ejecuta la aplicación. 
+Vamos a realizar estas respectivas actualizaciones. Empecemos con el componente **login**, vamos a crear un método que se va a llamar **restaurarValores**, dentro de este vamos a dejar todo como cuando el usuario ejecuta la aplicación. 
 
 Esto incluye: 
 * Dejar el **JTextField tNombreUsuario** con el placeholder **Nombre Usuario** y el **JPasswordField tClaveUsuario** con el placeholder **calve Usuario**.
@@ -977,7 +984,7 @@ Ahora debemos llamarlo desde el **login** cada vez que se quiera ingresar:
     <p>llamada del método restaurarValores de la vistaPrincipal</p>
 </div>
 
-Ahora solo nos queda actualizar el componente **NavegaciónUsuario**, dentro de la clase **NavegaciónUsuarioComponent** vamos a crear el método **ActualizarValores**:
+Solo nos queda actualizar el componente **NavegaciónUsuario**, dentro de la clase **NavegaciónUsuarioComponent** vamos a crear el método **ActualizarValores**:
 
 ```javascript
 public void actualizarValores (){
@@ -1028,11 +1035,11 @@ Ya esta lista la actualización, solo falta que sea llamado este método, podemo
     <p>Llamada del método Actualizar Datos del componente NavegacionUsuario</p>
 </div>
 
-Ya realizamos los ajustes necesarios y nuestro programa funciona de maravilla. 
+Ya realizamos los ajustes necesarios y nuestro programa funciona de maravilla. Ahora podemos ingresar varias veces a nuestra ventana principal desde una sola ejecución y con varios usuario y siempre mostrara la información del usuario que acaba de ingresar, también podemos notar que en la vista principal siempre estará incorporado el componente **inicio**. Por otro lado, una vez cerremos sesión el Login de usuario se vera con los valores iniciales a cuando ejecutamos por primera vez la aplicación.
 
 # Resultado
 
-Si has llegado hasta aquí **!Felicidades!** ya has aprendido como crear, cuando utilizar y como funcionan los **Servicios** dentro de nuestra arquitectura. Aprendiste como realizar un flujo de información externa de forma en que cada componente sera independiente de cuando obtener o enviar información a traves del uso de servicios. Aprendiste las características de los **Servicios**. En la proxima clase seguiremos usando estos servicios para revisar un objeto Gráfico particular, estos son las **JTables**.
+Si has llegado hasta aquí **!Felicidades!** ya has aprendido como crear, cuando utilizar y como funcionan los **Servicios** dentro de nuestra arquitectura. Aprendiste como gestionar un flujo de información externa de forma en que cada componente sera independiente en cuanto a obtener o enviar información a traves del uso de servicios. Aprendiste ademas, las características principales de los **Servicios**. En la proxima clase seguiremos usando servicios para revisar un objeto Gráfico particular, estos son las **JTables**.
 
 # Actividad 
 
