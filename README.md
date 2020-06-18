@@ -614,7 +614,6 @@ public void cargarDatos(){
             usuario.setImagenUsuario(new ImageIcon(atributos[3]));
             usuarios.add(usuario);
         }
-        System.out.println(usuarios.size());
         fr.close(); 
     }
     catch(Exception e){
