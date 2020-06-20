@@ -48,7 +48,7 @@ public class AccionTemplate extends JPanel {
         this.add(lTitulo);
 
         this.lParrafo = sObjGraficos.construirJLabel(
-            parrafo, (250-230)/2, 75, 230, 50, null, sRecursos.getColorGrisOscuro(), 
+            "<html><div align='center'>"+parrafo+"</div></html>", (250-230)/2, 75, 230, 50, null, sRecursos.getColorGrisOscuro(), 
             null, sRecursos.getFontPequeña(), "c"
         );
         this.add(lParrafo);

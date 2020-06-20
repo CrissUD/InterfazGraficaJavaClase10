@@ -72,7 +72,7 @@ public class InicioTemplate extends JPanel{
             new TarjetaComponent(
                 "Nuestra Misión", 
                 iTarjeta1, 
-                "<html><div align='justify'>Brindar cursos a la comunidad académica para complementar habilidades fuera del pensum común.</div></html>" 
+                "Brindar cursos a la comunidad académica para complementar habilidades fuera del pensum común." 
             ).getTarjetaTemplate()
         );
     }
@@ -82,7 +82,7 @@ public class InicioTemplate extends JPanel{
             new TarjetaComponent(
                 "Nuestra Visión", 
                 iTarjeta2, 
-                "<html><div align='justify'>Brindar cursos académicos al 80% de los estudiantes de ingeniería de Sistemas.</div></html>" 
+                "Brindar cursos académicos al 80% de los estudiantes de ingeniería de Sistemas." 
             ).getTarjetaTemplate()
         );
     }
@@ -92,7 +92,7 @@ public class InicioTemplate extends JPanel{
             new TarjetaComponent(
                 "Sobre Nosotros", 
                 iTarjeta3, 
-                "<html><div align='justify'>Somos un grupo de trabajo de la Universidad distrital Francisco jose de Caldas.</div></html>"
+                "Somos un grupo de trabajo de la Universidad distrital Francisco jose de Caldas."
             ).getTarjetaTemplate()
         );
     }

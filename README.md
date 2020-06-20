@@ -107,7 +107,7 @@ En este caso vamos a contener información relacionada con las acciónes que se 
 
 Primero vamos a mostrar la estructura de nuestro archivos plano acciones:
 <div align='center'>
-    <img  src='https://i.imgur.com/HlqtaVw.png'>
+    <img  src='https://i.imgur.com/K3mJU5L.png'>
     <p>Estructura de archivo plano, acciones</p>
 </div>
 
@@ -317,7 +317,7 @@ public Accion obtenerAccion(int numeroAccion){
 Ahora nos ubicamos en la clase **InicioTemplate** y recordamos un poco como esta escrito el código del método **crearContenidoPAcciones()**, en el teníamos la creación de cada componente **Accion** de forma manual.
 
 <div align='center'>
-    <img  src='https://i.imgur.com/uYQaXks.png'>
+    <img  src='https://i.imgur.com/PUtZqXf.png'>
     <p>Creación manual del Componente Gráfico Accion</p>
 </div>
 
