@@ -3,7 +3,7 @@ package app.client.vistaPrincipal;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import app.services.ObjGraficosService;
+import app.services.servicesGraphics.ObjGraficosService;
 
 public class VistaPrincipalTemplate extends JFrame {
 

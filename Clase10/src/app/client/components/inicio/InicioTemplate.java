@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import app.client.components.accion.AccionComponent;
 import app.client.components.accion.AccionTemplate;
 import app.client.components.tarjeta.TarjetaComponent;
-import app.services.ObjGraficosService;
-import app.services.RecursosService;
+import app.services.servicesGraphics.ObjGraficosService;
+import app.services.servicesGraphics.RecursosService;
 import models.Accion;
 
 public class InicioTemplate extends JPanel{

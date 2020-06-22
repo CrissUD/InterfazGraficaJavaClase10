@@ -1,7 +1,7 @@
 package app.client.login;
 
-import app.services.ObjGraficosService;
-import app.services.RecursosService;
+import app.services.servicesGraphics.ObjGraficosService;
+import app.services.servicesGraphics.RecursosService;
 
 import java.awt.Color;
 import java.awt.Image;

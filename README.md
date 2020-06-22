@@ -93,6 +93,9 @@ En los anteriores servicios podemos ver los dos propósitos principales de los s
 
 Ahí esta la clave del uso de los servicios, estos son solicitados por varias partes del proyecto y evita el acoplamiento extremo entre componentes gráficos. Por ejemplo si el servicio **RecursosService** no existiera pero se quisiera controlar la creación de objetos decoradores como colores, fuentes etc. La única forma de realizar esto es creándolos todos desde la clase **App** y empezar a repartir estos objetos mediante los constructores de los componentes y esto generaría un altísimo acoplamiento entre clases.
 
+## Antes de implementar servicios
+
+Vamos a crear dos carpetas
 
 # Servicio contenedor de información externa
 

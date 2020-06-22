@@ -4,8 +4,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Cursor;
 
-import app.services.ObjGraficosService;
-import app.services.RecursosService;
+import app.services.servicesGraphics.ObjGraficosService;
+import app.services.servicesGraphics.RecursosService;
 
 import java.awt.Color;
 

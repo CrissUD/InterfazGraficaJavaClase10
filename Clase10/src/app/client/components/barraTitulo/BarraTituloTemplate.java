@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Font;
-import app.services.ObjGraficosService;
-import app.services.RecursosService;
+import app.services.servicesGraphics.ObjGraficosService;
+import app.services.servicesGraphics.RecursosService;
 
 public class BarraTituloTemplate extends JPanel{
     

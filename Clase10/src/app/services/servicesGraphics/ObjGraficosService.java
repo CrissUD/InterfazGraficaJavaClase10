@@ -1,4 +1,4 @@
-package app.services;
+package app.services.servicesGraphics;
 
 import java.awt.Component;
 import java.awt.Color;
