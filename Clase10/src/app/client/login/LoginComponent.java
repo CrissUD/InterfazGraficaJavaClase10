@@ -1,7 +1,7 @@
 package app.client.login;
 
 import app.client.vistaPrincipal.VistaPrincipalComponent;
-import app.services.serviceLogic.UsuarioService;
+import app.services.servicesLogic.UsuarioService;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;

@@ -95,7 +95,9 @@ Ahí esta la clave del uso de los servicios, estos son solicitados por varias pa
 
 ## Antes de implementar servicios
 
-Vamos a crear dos carpetas
+Vamos a crear dos paquetes donde vamos a separar y contener los servicios de acuerdo a su propósito, estos dos paquétes serán:
+* **servicesGraphics**
+* **servicesLogic**
 
 # Servicio contenedor de información externa
 

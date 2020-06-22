@@ -1,6 +1,6 @@
 package app.client.components.inicio;
 
-import app.services.serviceLogic.AccionService;
+import app.services.servicesLogic.AccionService;
 import models.Accion;
 
 public class InicioComponent {
