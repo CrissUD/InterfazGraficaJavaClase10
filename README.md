@@ -99,6 +99,13 @@ Vamos a crear dos paquetes donde vamos a separar y contener los servicios de acu
 * **servicesGraphics**
 * **servicesLogic**
 
+Adicionalmente vamos a dejar los servicios que ya hemos creado **ObjGraficosService y RecursosService** dentro del páquete **servicesGraphics**:
+
+<div align='center'>
+    <img  src='https://i.imgur.com/pJmiH4a.png'>
+    <p>Creación de folders para separación de servicios</p>
+</div>
+
 # Servicio contenedor de información externa
 
 Hay veces que la información externa es necesaria solo para propósitos visuales, es decir información que sera mostrada pero que no necesariamente esta contenida en algún servidor web o una base de datos, simplemente es información que se quiere mostrar en la interfaz gráfica pero que no es tan importante para guardarse en una base de datos o un servidor web externo.
@@ -121,10 +128,10 @@ Pueden notar que el archivo plano contiene cierta información sobre cada acció
 * **Descripción de Acción** Note que esta insertada de una vez la propiedad html para que el texto este centrado y con saltos de linea.
 * **Dirección de Imagen**
 
-Ahora vamos a crear nuestro servicio **AccionService**, esta clase la creamos dentro del paquete **Services**:
+Ahora vamos a crear nuestro servicio **AccionService**, esta clase la creamos dentro del paquete **servicesLogic**:
 
 <div align='center'>
-    <img  src='https://i.imgur.com/FxT01bH.png'>
+    <img  src='https://i.imgur.com/gxwR3r7.png'>
     <p>Creación de servicio AccionService</p>
 </div>
 
@@ -637,7 +644,7 @@ cargarDatos();
 Ahora vamos a crear el servicio **UsuarioService**
 
 <div align='center'>
-    <img  src='https://i.imgur.com/QBsc6T8.png'>
+    <img  src='https://i.imgur.com/v0bzfwv.png'>
     <p>Creación del servicio UsuarioService</p>
 </div>
 
