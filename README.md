@@ -13,22 +13,22 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 * Examinar las características principales de los servicios y su forma de construcción.
 * Reconocer el propósito del uso de Servicios dentro del proyecto para la obtención de información externa desde cualquier componente gráfico.
 * Identificar las distintas funcionalidades que puede tomar un servicio para el manejo de información externa.
-* Comprender la forma en que distintas partes de nuestro proyecto pueden dar uso de un servicio en común para obtener información.
+* Comprender la forma en que distintas partes del proyecto pueden dar uso de un servicio en común para obtener información.
 
 # Antes de Comenzar
 
 Para continuar con el ejercicio deberá actualizar la carpeta **resources/images/perfiles** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase10** seguido de **resources/images/perfiles**.
 
-Vamos a observar mediante un modelo estructural general como es la estructura de nuestro proyecto hasta el momento:
+Vamos a observar mediante un modelo estructural general como es la estructura del proyecto hasta el momento:
 
 <div align='center'>
     <img  src='https://i.imgur.com/8q6Uq6C.png'>
-    <p>Modelo Estructural de nuestro Proyecto</p>
+    <p>Modelo Estructural del Proyecto</p>
 </div>
 
-El anterior es un esquema general de como esta nuestro proyecto, hay muchas cosas que se han omitido y solo se esta mostrando lo más relevante de nuestro proyecto en cuanto a atributos, métodos y relaciones entre clases.
+El anterior es un esquema general de como esta el proyecto, hay muchas cosas que se han omitido y solo se esta mostrando lo más relevante del proyecto en cuanto a atributos, métodos y relaciones entre clases.
 
-* Vamos a crear un nuevo paquete desde nuestra carpeta raíz **src** el cual llamaremos **archives** y ahi contendremos dos archivos que servirán como una simulación de información externa para el propósito de la clase. 
+* Vamos a crear un nuevo paquete desde la carpeta raíz **src** el cual llamaremos **archives** y ahi contendremos dos archivos que servirán como una simulación de información externa para el propósito de la clase. 
 
 <div align='center'>
     <img  src='https://i.imgur.com/9Oo3FT6.png'>
@@ -57,7 +57,7 @@ Estos archivos planos los puede encontrar en este mismo repositorio entrando a l
     <p>Archivos planos dentro del repositorio</p>
 </div>
 
-Recordando un poco nuestro recorrido, hemos utilizado los eventos de mouse para darle interactividad a varias partes de nuestro proyecto, acciones como el arrasate de la ventana, el cambio de color de varios botones y labels, la gestión del contenido y color de los JTetField etc. Ademas mientras realizábamos dicha interactividad vimos algunos temas importantes relacionados con los eventos, cosas como: **Representación única para objetos gráficos de una misma Clase** , **Discriminación de Clases**, **Efectos hacia otros objetos Gráficos** y el **Uso combinado de varios Métodos implementados de eventos**.
+Recordando un poco el recorrido, hemos utilizado los eventos de mouse para darle interactividad a varias partes del proyecto, acciones como el arrasate de la ventana, el cambio de color de varios botones y labels, la gestión del contenido y color de los JTetField etc. Ademas mientras realizábamos dicha interactividad vimos algunos temas importantes relacionados con los eventos, cosas como: **Representación única para objetos gráficos de una misma Clase** , **Discriminación de Clases**, **Efectos hacia otros objetos Gráficos** y el **Uso combinado de varios Métodos implementados de eventos**.
 
 # Servicios 
 
@@ -65,19 +65,19 @@ En esta sesión vamos a ver el uso y características de los servicios y para el
 * **Explicación general de los servicios**.
 * **Servicio contenedor de información externa**.
 * **Servicio que recibe información externa**.
-* **Ajustes de nuestro proyecto para el uso de servicios**.
+* **Ajustes del proyecto para el uso de servicios**.
 
 
 # Explicación general de los servicios
 
 Antes hemos hablado de los **Componentes Gráficos** y sabemos hasta este punto que estos están conformados por una parte visual (**Template**), y una parte lógica (**Component**). Aunque la clase **Component** utiliza lógica detrás para que todas las funcionalidades del componente se puedan cumplir, hay acciones que no deben realizar, recordemos que esta clase se debe encargar unicamente de soportar la lógica que requiere el componente.
 
-Nuestras aplicaciónes de interfaz Gráfica siempre van a depender de la obtención de información externa que el usuario va a solicitar, ya sea de un servidor web, una base de datos externa, una Api etc. Podríamos delegar la obtención de esta información a nuestras clases **Components** y es una forma de hacerlo y funciona. Sin embargo esto va a restar reutilización y modularidad a nuestro proyecto. Esta información externa tiene ciertos datos que seguramente van a ser solicitados por varias partes de nuestro proyecto y si en cada componente que se necesite dicha información se va a consumir un mismo servicio web externo esto podría restar rendimiento.
+Las aplicaciónes de interfaz Gráfica siempre van a depender de la obtención de información externa que el usuario va a solicitar, ya sea de un servidor web, una base de datos externa, una Api etc. Podríamos delegar la obtención de esta información a las clases **Components** y es una forma de hacerlo y funciona. Sin embargo esto va a restar reutilización y modularidad al proyecto. Esta información externa tiene ciertos datos que seguramente van a ser solicitados por varias partes del proyecto y si en cada componente que se necesite dicha información se va a consumir un mismo servicio web externo esto podría restar rendimiento.
 
-Otra forma para obtener esta información sin afectar el rendimiento es obtener la información externa una vez y empezar a pasar la información entre componentes, pero esta practica hará que nuestro proyecto esté muy acoplado y exista una dependencia alta entre componentes gráficos.
+Otra forma para obtener esta información sin afectar el rendimiento es obtener la información externa una vez y empezar a pasar la información entre componentes, pero esta practica hará que el proyecto esté muy acoplado y exista una dependencia alta entre componentes gráficos.
 
-Podemos hacer uso de servicios que van a tener un propósito estrecho y bien definido y que puede encapsular alguna funcionalidad o información externa que será requerida por varias partes de nuestro proyecto. Estas clases entonces se encargan principalmente de contener la información que se va a obtener externamente. Pueden existir varios tipos de servicios:
-* **Servicios Lógicos:** Que se encargan de contener información externa y que sera solicitada por varas partes de nuestro proyecto. Siempre serán solicitados por las clases **Component** de nuestros componentes.
+Podemos hacer uso de servicios que van a tener un propósito estrecho y bien definido y que puede encapsular alguna funcionalidad o información externa que será requerida por varias partes del proyecto. Estas clases entonces se encargan principalmente de contener la información que se va a obtener externamente. Pueden existir varios tipos de servicios:
+* **Servicios Lógicos:** Que se encargan de contener información externa y que sera solicitada por varas partes del proyecto. Siempre serán solicitados por las clases **Component** de los componentes.
 * **Servicios Gráficos:** Que contiene una funcionalidad o información especifica y relacionada con la creación de objetos gráficos. Siempre serán solicitados por las clases **Template**.
 
 Independientemente de su propósito la estructura de un servicio es similar, podemos crear servicios **Singleton** o podemos realizar varios objetos de un servicio (Esto en ocasiones muy especiales).
@@ -89,7 +89,7 @@ Hemos visto a lo largo del curso el uso de **Servicios Gráficos**, hasta el mom
 En los anteriores servicios podemos ver los dos propósitos principales de los servicios:
 
 * **Contener Funcionalidad**: En el servicio **ObjGraficosService** tenemos encapsulada una funcionalidad que es usada por la mayoría de clases Template que hemos creado. Este servicio contiene una serie de métodos encargados de la construcción de objetos gráficos y que ayuda a las clases **Template** con el proceso de **creación de objetos gráficos**. Esta funcionalidad es común y general por lo que permite que se use en varias partes del proyecto e incluso en varios proyectos.
-* **Contener Información**: En el servicio **RecursosService** de alguna manera se esta conteniendo información, no es información externa evidentemente ni tampoco información compuesta de datos comúnes. Pero desde una perspectiva general este servicio crea objetos decoradores (información) que sera solicitada desde varias partes de nuestro proyecto.
+* **Contener Información**: En el servicio **RecursosService** de alguna manera se esta conteniendo información, no es información externa evidentemente ni tampoco información compuesta de datos comúnes. Pero desde una perspectiva general este servicio crea objetos decoradores (información) que sera solicitada desde varias partes del proyecto.
 
 Ahí esta la clave del uso de los servicios, estos son solicitados por varias partes del proyecto y evita el acoplamiento extremo entre componentes gráficos. Por ejemplo si el servicio **RecursosService** no existiera pero se quisiera controlar la creación de objetos decoradores como colores, fuentes etc. La única forma de realizar esto es creándolos todos desde la clase **App** y empezar a repartir estos objetos mediante los constructores de los componentes y esto generaría un altísimo acoplamiento entre clases.
 
@@ -110,14 +110,14 @@ Adicionalmente vamos a dejar los servicios que ya hemos creado **ObjGraficosServ
 
 Hay veces que la información externa es necesaria solo para propósitos visuales, es decir información que sera mostrada pero que no necesariamente esta contenida en algún servidor web o una base de datos, simplemente es información que se quiere mostrar en la interfaz gráfica pero que no es tan importante para guardarse en una base de datos o un servidor web externo.
 
-En este caso vamos a contener información relacionada con las acciónes que se muestran en el componente **inicio** al el usuario. Como recordaran estas acciónes se muestran a traves de la **reutilización de componentes gráficos** pero había una cantidad considerable de código debido a esta reutilización, esta vez vamos a recibir la información de las acciones a traves de un archivo plano (Simulación de información externa) y lo vamos a contener en un servicio para que podamos reducir un poco el código de nuestra clase.
+En este caso vamos a contener información relacionada con las acciónes que se muestran en el componente **inicio** al el usuario. Como recordaran estas acciónes se muestran a traves de la **reutilización de componentes gráficos** pero había una cantidad considerable de código debido a esta reutilización, esta vez vamos a recibir la información de las acciones a traves de un archivo plano (Simulación de información externa) y lo vamos a contener en un servicio para que podamos reducir un poco el código de la clase.
 
 <div align='center'>
     <img  src='https://i.imgur.com/7r5EHeu.png'>
     <p>Acciones dentro del componente Inicio.</p>
 </div>
 
-Primero vamos a mostrar la estructura de nuestro archivos plano acciones:
+Primero vamos a mostrar la estructura de los archivos plano acciones:
 <div align='center'>
     <img  src='https://i.imgur.com/K3mJU5L.png'>
     <p>Estructura de archivo plano, acciones</p>
@@ -128,7 +128,7 @@ Pueden notar que el archivo plano contiene cierta información sobre cada acció
 * **Descripción de Acción** Note que esta insertada de una vez la propiedad html para que el texto este centrado y con saltos de linea.
 * **Dirección de Imagen**
 
-Ahora vamos a crear nuestro servicio **AccionService**, esta clase la creamos dentro del paquete **servicesLogic**:
+Ahora vamos a crear el servicio **AccionService**, esta clase la creamos dentro del paquete **servicesLogic**:
 
 <div align='center'>
     <img  src='https://i.imgur.com/gxwR3r7.png'>
@@ -156,7 +156,7 @@ public static AccionService getService(){
 
 * Como dijimos el constructor lo vamos a dejar publico (es decir en su forma normal) por los casos que explicamos antes.
 
-Antes de continuar con nuestro servicio vamos a crear otro paquete desde la carpeta raíz **src**, la cual llamaremos **models**, adentro vamos  a crear una clase llamada **Accion** y sera la representación en objeto de las acciones. 
+Antes de continuar con el servicio vamos a crear otro paquete desde la carpeta raíz **src**, la cual llamaremos **models**, adentro vamos  a crear una clase llamada **Accion** y sera la representación en objeto de las acciones. 
 
 <div align='center'>
     <img  src='https://i.imgur.com/usKErN0.png'>
@@ -215,7 +215,7 @@ public AccionService() {
 }
 ```
 
-***Nota:** Entre los signos **<>** esta el tipo de objetos que va a contener, en este caso nuestro arreglo **acciones** va a contener objetos de tipo **Accion**, recordemos que aunque es dinámico, al ser un arreglo solo puede contener un solo tipo de dato.*
+***Nota:** Entre los signos **<>** esta el tipo de objetos que va a contener, en este caso el arreglo **acciones** va a contener objetos de tipo **Accion**, recordemos que aunque es dinámico, al ser un arreglo solo puede contener un solo tipo de dato.*
 
 Como este servicio se va a encargar de obtener la información externa, tenemos que crear un método encargado de recibir la información del archivo plano. Recordemos que estamos en un caso en el que la información externa no proviene de ninguna fuente de almacenamiento externa sino que estamos suponiendo que es información que solo se esta necesitando en el Frontend para fines visuales.
 
@@ -293,7 +293,7 @@ public Accion devolverAccion(int posicion){
 }
 ```
 
-Nuestro servicio esta listo y puede usarse en varias partes de nuestro proyecto, por ahora lo vamos a usar en un lugar especifico, el componente **Inicio**. Nos ubicamos en la clase **InicioComponent** y lo primero que debemos hacer es obtener el servicio:
+El servicio esta listo y puede usarse en varias partes del proyecto, por ahora lo vamos a usar en un lugar especifico, el componente **Inicio**. Nos ubicamos en la clase **InicioComponent** y lo primero que debemos hacer es obtener el servicio:
 
 * **Declaración:**
 
@@ -345,7 +345,7 @@ public void crearContenidoPAcciones(){
 }
 ```
 
-Vamos ahora a crear un **Contador** esta variable nos va a servir como la posición a buscar dentro del arreglo de acciones que contiene nuestro servicio **AccionService**:
+Vamos ahora a crear un **Contador** esta variable nos va a servir como la posición a buscar dentro del arreglo de acciones que contiene el servicio **AccionService**:
 
 ```javascript
 public void crearContenidoPAcciones(){
@@ -356,7 +356,7 @@ public void crearContenidoPAcciones(){
 }
 ```
 
-Vamos a crear un objeto de tipo **Accion** (que se encuentra en nuestra carpeta **Models**) y lo vamos a igualar con la llamada del método que esta en la clase **Component** que a su vez va a llamar al método que se encuentra en el servicio **ActionService**:
+Vamos a crear un objeto de tipo **Accion** (que se encuentra en la carpeta **Models**) y lo vamos a igualar con la llamada del método que esta en la clase **Component** que a su vez va a llamar al método que se encuentra en el servicio **ActionService**:
 
 ```javascript
 public void crearContenidoPAcciones(){
@@ -368,7 +368,7 @@ public void crearContenidoPAcciones(){
 }
 ```
 
-En el anterior código hemos llamado al método **obtenerAccion** de la clase **InicioComponent** y como argumento le pasamos nuestro **Contador** que vale 0, esto quiere decir que hemos obtenido desde el servicio **AccionService** la **acción** que se encuentra en la primera posición del arreglo **acciones**.
+En el anterior código hemos llamado al método **obtenerAccion** de la clase **InicioComponent** y como argumento le pasamos el **Contador** que vale 0, esto quiere decir que hemos obtenido desde el servicio **AccionService** la **acción** que se encuentra en la primera posición del arreglo **acciones**.
 
 Vamos a crear ahora un ciclo **while** y la condición para que el ciclo continue es que al llamar al servicio para obtener una accion esta no sea **nulo** o en otras palabras que una vez ya no existan mas acciones en el arreglo el ciclo se termine.
 
@@ -385,7 +385,7 @@ public void crearContenidoPAcciones(){
 }
 ```
 
-Como ya recibimos nuestra primera accion antes de entrar al ciclo la condición se cumple y puede entrar, adentro vamos a crear nuestro componente gráfico **Accion** y como sabemos debemos llamar a su clase **AccionComponent** para acceder a este.
+Como ya recibimos la primera accion antes de entrar al ciclo la condición se cumple y puede entrar, adentro vamos a crear el componente gráfico **Accion** y como sabemos debemos llamar a su clase **AccionComponent** para acceder a este.
 
 * Primero se ejemplifica la clase **Component**:
 
@@ -411,7 +411,7 @@ Si recordamos un poco, la clase **AccionComponent** pide ciertas cosas por pará
     <p>Parámetros exigidos por el componente Acción</p>
 </div>
 
-Debemos pasarle esos argumentos y para eso usaremos nuestro objeto **accion**, vamos a llamar a sus métodos **get** correspondientes (**getImagenAccion(), getNombreAccion(), getDescripcionAccion()**) que ya contienen esta información necesaria.
+Debemos pasarle esos argumentos y para eso usaremos el objeto **accion**, vamos a llamar a sus métodos **get** correspondientes (**getImagenAccion(), getNombreAccion(), getDescripcionAccion()**) que ya contienen esta información necesaria.
 
 ```javascript
 public void crearContenidoPAcciones(){
@@ -445,7 +445,7 @@ public void crearContenidoPAcciones(){
 }
 ```
 
-Nuestro componente **Accion** ya ha sido ejemplificado de manera exitosa, sin embargo debemos recordar que estamos realizando una **reutilización por posicionamiento** esto quiere decir que debemos darle la posición a cada componente acción que llamemos. Como en este caso sabemos que son 6 componentes que realizaremos, vamos a realizar el siguiente calculo:
+El componente **Accion** ya ha sido ejemplificado de manera exitosa, sin embargo debemos recordar que estamos realizando una **reutilización por posicionamiento** esto quiere decir que debemos darle la posición a cada componente acción que llamemos. Como en este caso sabemos que son 6 componentes que realizaremos, vamos a realizar el siguiente calculo:
 
 ```javascript
 public void crearContenidoPAcciones(){
@@ -468,13 +468,13 @@ public void crearContenidoPAcciones(){
 ```
 
 Para calcular la posición de cada uno de los componentes de **Accion** que vamos a mostrar debemos mirar la perspectiva de los dos ejes:
-* Para el eje X nos vamos a ayudar de los valores del **Contador y El Ancho del Componente Gráfico Acción** de esta forma nuestro primera acción se ubicara en la posicion 15 del eje X y a medida que se añaden los otros componentes se le suma el ancho y un espacio de 15 relacionado con el contador.
+* Para el eje X nos vamos a ayudar de los valores del **Contador y El Ancho del Componente Gráfico Acción** de esta forma la primera acción se ubicara en la posicion 15 del eje X y a medida que se añaden los otros componentes se le suma el ancho y un espacio de 15 relacionado con el contador.
 * Para el eje Y nos ayudamos del uso del **If / Else** esto debido a que solo nos estamos guiando de una variable **El contador** para la posición de los componentes en el **if** se ubicaran los componentes **Accion** de la primera fila y en el **else** los de la segunda.
 
 En caso de no tener claro el numero de componentes **Accion** a mostrar en pantalla seguramente habrá que realizar el uso de otra variable que ayude a automatizar la posicion del eje Y sin el uso de **If / Else**.
 
 Para finalizar el ciclo de manera correcta debemos:
-* Agregar el componente a nuestro panel.
+* Agregar el componente al panel.
 * Aumentar el Contador.
 * Llamar al siguiente objeto de acción.
 
@@ -501,14 +501,14 @@ public void crearContenidoPAcciones(){
 }
 ```
 
-Nuestras Acciones están listas y se muestran correctamente, podemos ejecutar la aplicación y verificar:
+Las Acciones están listas y se muestran correctamente, podemos ejecutar la aplicación y verificar:
 
 <div align='center'>
     <img  src='https://i.imgur.com/HQUhJfh.png'>
     <p>Componentes Accion creados de forma automática.</p>
 </div>
 
-Ya realizamos la automatización de la creación de **componentes gráficos reutilizables** y es un complemento de lo que habíamos visto previamente sobre ese tema. Sin embargo vale la pena aclarar que el fin del servicio **AccionService** no es solamente poder realizar esta automatización, como lo explicamos previamente es para contener la información de estas acciónes que se puedan usar en varias partes de nuestro proyecto. Una excelente forma de usar este servicio en otra parte de nuestro proyecto es creando otro componente por ejemplo que muestre mas información de cada acción y una vez se oprima en cualquiera de los paneles de acción que mostramos en pantalla, este abra ese nuevo componente. De esta forma no tenemos que realizar un traspaso de información entre componentes sino que el nuevo componente puede llamar al servicio para obtener la información de la acción que necesita. 
+Ya realizamos la automatización de la creación de **componentes gráficos reutilizables** y es un complemento de lo que habíamos visto previamente sobre ese tema. Sin embargo vale la pena aclarar que el fin del servicio **AccionService** no es solamente poder realizar esta automatización, como lo explicamos previamente es para contener la información de estas acciónes que se puedan usar en varias partes del proyecto. Una excelente forma de usar este servicio en otra parte del proyecto es creando otro componente por ejemplo que muestre mas información de cada acción y una vez se oprima en cualquiera de los paneles de acción que mostramos en pantalla, este abra ese nuevo componente. De esta forma no tenemos que realizar un traspaso de información entre componentes sino que el nuevo componente puede llamar al servicio para obtener la información de la acción que necesita. 
 
 Esta acción no se realizará en el momento, pero para explicar lo anterior referente al uso compartido de servicios lógicos vamos a ver en la siguiente sección el uso de otro servicio que si nos conviene realizar y que se necesita en varias partes del proyecto.
 
@@ -581,7 +581,7 @@ public class Usuario {
 }
 ```
 
-Ahora vamos a simular un controlador de información externa de forma local, (esto por motivos de ejemplo) pero recuerden que normalmente nuestra aplicación de interfaz gráfica se comunicara con Apis externas.
+Ahora vamos a simular un controlador de información externa de forma local, (esto por motivos de ejemplo) pero recuerden que normalmente la aplicación de interfaz gráfica se comunicara con Apis externas.
 
 Vamos a crear un nuevo paquete desde la carpeta raíz **src** la cual llamaremos **logic** y dentro crearemos una clase llamada **ControlUsuarios**, esta sera la clase encargada de obtener, contener y gestionar la información.
 
@@ -691,10 +691,10 @@ Para realizar la validación se va a verificar tres cosas:
 * Contraseña del usuario.
 * Tipo del usuario.
 
-Para que una persona pueda ingresar a nuestra aplicación debe proporcionar esos tres datos y estos deben estar guardados en el lugar de persistencia de datos (En este ejercicio el archivo plano), ademas de eso los 3 datos deben coincidir para un mismo usuario, de lo contrario no podrá entrar. 
+Para que una persona pueda ingresar a la aplicación debe proporcionar esos tres datos y estos deben estar guardados en el lugar de persistencia de datos (En este ejercicio el archivo plano), ademas de eso los 3 datos deben coincidir para un mismo usuario, de lo contrario no podrá entrar. 
 Sin embargo esta gestión de verificación del usuario no la debe realizar la parte Frontend de un proyecto, normalmente esto lo realiza el Backend y el proyecto del cliente solo recibe la respuesta de la validación una vez enviá los datos que el usuario ha proporcionado.
 
-Para simular esto vamos a realizar la respectiva validación dentro de la clase **ControlUsuarios** que recordemos es una clase externa de nuestro proyecto y solo la usamos por motivos de simulación de una aplicación real.
+Para simular esto vamos a realizar la respectiva validación dentro de la clase **ControlUsuarios** que recordemos es una clase externa del proyecto y solo la usamos por motivos de simulación de una aplicación real.
 
 Dentro de esta clase vamos a crear el método **VerificarUsuario** el cual va a recibir por parámetros 
 * **String nombreUsuario**
@@ -733,7 +733,7 @@ public boolean verificarUsuario(String nombreUsuario, String claveUsuario, Strin
 
 En la anterior validación estamos indicando que si en algún momento del recorrido del arreglo encuentra un objeto **Usuario** que cumple con la igualdad de los 3 datos dados por el usuario, se va a retornar un **True** indicando que se ha realizado la validación satisfactoriamente, en caso de no encontrar ningún objeto **Usuario** que cumpla con los requisitos se saldrá del ciclo y retornara un **False** indicando que el usuario no existe en el sistema.
 
-Ahora vamos a ir a la clase de nuestro servicio **UsuarioService** que es la clase dentro de nuestro proyecto que se va a comunicar directamente con el control externo. Allí vamos a crear un nuevo método al cual llamaremos **verificarDatosUsuario** el cual recibirá de nuevo los tres datos que el usuario proporcionará y de igual forma retornara un **boolean**.
+Ahora vamos a ir a la clase del servicio **UsuarioService** que es la clase dentro del proyecto que se va a comunicar directamente con el control externo. Allí vamos a crear un nuevo método al cual llamaremos **verificarDatosUsuario** el cual recibirá de nuevo los tres datos que el usuario proporcionará y de igual forma retornara un **boolean**.
 
 ```javascript
 public boolean verificarDatosUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario){
@@ -757,7 +757,7 @@ Noten que dentro del **If** hemos llamado al método del Controlador, en caso de
 En caso de que la verificación haya retornado un **False** este método de igual forma retornara el **False**.
 
 
-Nuestro Servicio esta listo para realizar la verificación ahora es tiempo de ir a nuestro componente **Login** y hacer uso de este servicio. Lo primero que vamos a realizar es la obtención del servicio **UsuarioService** desde nuestro componente, específicamente desde la clase **LoginComponent**. 
+El Servicio esta listo para realizar la verificación ahora es tiempo de ir al componente **Login** y hacer uso de este servicio. Lo primero que vamos a realizar es la obtención del servicio **UsuarioService** desde el componente, específicamente desde la clase **LoginComponent**. 
 
 * **Declaración:**
 
@@ -804,7 +804,7 @@ public void enviarDatosUsuario() {
 }
 ```
 
-Ahora vamos a enviar los datos a nuestro servicio **UsuarioService** para realizar la respectiva validación, en caso de ser verificado satisfactoriamente mostrará un mensaje indicando el ingreso exitoso y entrara a la vista principal, en el caso contrario mostrará un mensaje indicando que algo ha salido mal.
+Ahora vamos a enviar los datos al servicio **UsuarioService** para realizar la respectiva validación, en caso de ser verificado satisfactoriamente mostrará un mensaje indicando el ingreso exitoso y entrara a la vista principal, en el caso contrario mostrará un mensaje indicando que algo ha salido mal.
 
 ```javascript
 public void enviarDatosUsuario() {
@@ -819,7 +819,7 @@ public void enviarDatosUsuario() {
         JOptionPane.showMessageDialog(null, "Algo quedo mal", "Advertencia", 2);
 }
 ```
-Una vez ejecutamos nuestro programa podemos verificar su funcionamiento:
+Una vez ejecutamos el programa podemos verificar su funcionamiento:
 
 <div align='center'>
     <img  src='https://i.imgur.com/lc3L4ko.png'>
@@ -869,7 +869,7 @@ En este caso le vamos a enviar como argumento al método del controlador el atri
     <p>Momento en el que se le dio valor al atributo usuarioLogeado</p>
 </div>
 
-Mas adelante se explicara por que se realiza esta metodología, por ahora vamos a hacer uso de nuestro servicio.
+Mas adelante se explicara por que se realiza esta metodología, por ahora vamos a hacer uso del servicio.
 
 Dentro de la clase **NavegacionUsuarioComponent** vamos a realizar la obtención del servicio;
 
@@ -931,7 +931,7 @@ Esto funciona como esperábamos, sin embargo las dos pruebas anteriores se reali
 
 Por otro lado el uso del servicio **UsuarioService** cobra vital importancia ya que es un servicio que se esta utilizando en varias partes del proyecto, en este caso lo usamos en el componente **login** y el componente **navegacionUsuario** y posiblemente se pueda usar en el componente **perfil** también. Noten que ambos componentes usaron el servicio de forma independiente sin tener que estar comunicados entre ellos, en este caso el uso del atributo **usuarioLogeado** fue crucial para realizar esta independencia, si no existiera este atributo no habría manera de que el componente **navegacionUsuario** sepa que usuario ha ingresado, la única forma de poder saberlo sin el uso del servicio es que el componente **login** le pase el dato del usuario que ingreso al componente **vistaPrincipal** y luego este ultimo se lo pase al componente **navegacionUsuario** y se formaría una dependencia entre componentes muy alta y solo en este caso, imaginen con otras acciones cuanta dependencia mas habría. Es por eso que el uso de servicios se hace especialmente importante en estos casos, siempre hay que encontrar la manera de que estos servicios puedan proporcionar independencia del uso de la información a traves de el y evitar el acoplamiento y envió de información entre componentes que no estar correlacionados.
 
-# Ajustes de nuestro proyecto para el uso de servicios
+# Ajustes del proyecto para el uso de servicios
 
 Como se menciono en la anterior sección, hay partes del proyecto que requieren una actualización, a continuación se mencionan algunas de ellas:
 * Cuando dos usuarios entran al sistema a traves del login, es necesario actualizar los datos del componente **navegacionUsuario** para que se vean los datos del ultimo usuario que ingreso.
@@ -1046,11 +1046,11 @@ Ya esta lista la actualización, solo falta que sea llamado este método, podemo
     <p>Llamada del método Actualizar Datos del componente NavegacionUsuario</p>
 </div>
 
-Ya realizamos los ajustes necesarios y nuestro programa funciona de maravilla. Ahora podemos ingresar varias veces a nuestra ventana principal desde una sola ejecución y con varios usuario y siempre mostrara la información del usuario que acaba de ingresar, también podemos notar que en la vista principal siempre estará incorporado el componente **inicio**. Por otro lado, una vez cerremos sesión el Login de usuario se vera con los valores iniciales a cuando ejecutamos por primera vez la aplicación.
+Ya realizamos los ajustes necesarios y el programa funciona de maravilla. Ahora podemos ingresar varias veces a la ventana principal desde una sola ejecución y con varios usuario y siempre mostrara la información del usuario que acaba de ingresar, también podemos notar que en la vista principal siempre estará incorporado el componente **inicio**. Por otro lado, una vez cerremos sesión el Login de usuario se vera con los valores iniciales a cuando ejecutamos por primera vez la aplicación.
 
 # Resultado
 
-Si has llegado hasta aquí **!Felicidades!** ya has aprendido como crear, cuando utilizar y como funcionan los **Servicios** dentro de nuestra arquitectura. Aprendiste como gestionar un flujo de información externa de forma en que cada componente sera independiente en cuanto a obtener o enviar información a traves del uso de servicios. Aprendiste ademas, las características principales de los **Servicios**. En la proxima clase seguiremos usando servicios para revisar un objeto Gráfico particular, estos son las **JTables**.
+Si has llegado hasta aquí **!Felicidades!** ya has aprendido como crear, cuando utilizar y como funcionan los **Servicios** dentro de la arquitectura. Aprendiste como gestionar un flujo de información externa de forma en que cada componente sera independiente en cuanto a obtener o enviar información a traves del uso de servicios. Aprendiste ademas, las características principales de los **Servicios**. En la proxima clase seguiremos usando servicios para revisar un objeto Gráfico particular, estos son las **JTables**.
 
 # Actividad 
 
