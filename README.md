@@ -17,7 +17,7 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 
 # Antes de Comenzar
 
-Para continuar con el ejercicio deberá actualizar la carpeta **resources/img/perfiles** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase10** seguido de **resources/img/perfiles**.
+Para continuar con el ejercicio deberá actualizar la carpeta **resources/images/perfiles** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase10** seguido de **resources/images/perfiles**.
 
 Vamos a observar mediante un modelo estructural general como es la estructura de nuestro proyecto hasta el momento:
 
