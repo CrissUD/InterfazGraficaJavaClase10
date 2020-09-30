@@ -544,78 +544,70 @@ Esta acción no se realizará en el momento, pero para explicar lo anterior refe
     <p>Método crearObjetosDecoradores sin las imágenes de acción</p>
 </div>
 
-# Servicio que recibe información externa
+# Servicio lógicos que recibe información externa
 
-Este tipo de servicios no contienen la información externa directamente, sino que deben obtenerla desde algún sistema alejo primero, estos pueden ser algún servidor externo. alguna base de datos externa etc. Para este caso vamos a manejar la información de los usuarios que ya están registrados en el sistema y que solo ellos pueden entrar. Esta información esta contenida en el archivo plano **usuarios.txt**.
+Este tipo de servicios no contienen la información externa directamente, mas bien deben obtenerla desde algún sistema ajeno primero, estos pueden ser algún servidor externo, una base de datos, una Api publica etc. En este caso se va a manejar la información de los usuarios que ya están registrados en el sistema y estos serán los únicos que pueden entrar. Esta información esta contenida en el archivo plano **usuarios.txt**.
 
 <div align='center'>
-    <img  src='https://i.imgur.com/Qz1rnIs.png'>
+    <img  src='https://i.imgur.com/6UrTJco.png'>
     <p>Información contenida de los usuarios</p>
 </div>
 
 
-Vemos que la información incluye el **Nombre del usuario, clave del usuario, tipo usuario e imagen usuario.** Para aclarar normalmente las contraseñas se guardan en las bases de datos de forma encriptada, sin embargo esos son temas del Backend que este curso no va a tocar,  en este caso solo se simula un ejemplo de información externa.
+La información incluye el **Nombre del usuario, clave del usuario, tipo usuario e imagen usuario**. Para aclarar normalmente las contraseñas se guardan en las bases de datos de forma encriptada, sin embargo, estos son temas del Backend que este curso no va a tocar,  en este caso solo se simula un ejemplo de información externa.
 
-Igual que como hicimos con las acciones vamos a crear un objeto en el modelo que representara el objeto de los usuarios:
+Similarmente a la gestión de las acciones se va a crear un objeto en el modelo que represente el objeto de los usuarios:
 
 <div align='center'>
     <img  src='https://i.imgur.com/GX0KBi2.png'>
     <p>Creación de clase Usuario dentro del paquete Models</p>
 </div>
 
-Dentro de la clase **Usuario** vamos a crear los atributos de un usuario que ya describimos anteriormente y ademas de sus respectivos métodos **set y get**.
+Dentro de la clase **Usuario** se declaran los atributos de un usuario que ya fueron descritos y ademas se crean sus respectivos métodos **set y get**.
 
 ```javascript
 public class Usuario {
-    private String nombreUsuario;
-    private String claveUsuario;
-    private String tipoUsuario;
-    private ImageIcon imagenUsuario;
+  private String nombreUsuario;
+  private String claveUsuario;
+  private String tipoUsuario;
+  private ImageIcon imagenUsuario;
 
-    public String getNombreUsuario (){
-        return nombreUsuario;
-    }
+  public String getNombreUsuario() { return nombreUsuario; }
 
-    public String getClaveUsuario (){
-        return claveUsuario;
-    }
+  public String getClaveUsuario() { return claveUsuario; }
 
-    public String getTipoUsuario (){
-        return tipoUsuario;
-    }
+  public String getTipoUsuario() { return tipoUsuario; }
 
-    public ImageIcon getImagenUsuario (){
-        return imagenUsuario;
-    }
+  public ImageIcon getImagenUsuario() { return imagenUsuario; }
 
-    public void setNombreUsuario (String nombreUsuario){
-        this.nombreUsuario = nombreUsuario;
-    }
+  public void setNombreUsuario (String nombreUsuario){
+    this.nombreUsuario = nombreUsuario;
+  }
 
-    public void setClaveUsuario (String claveUsuario){
-        this.claveUsuario = claveUsuario;
-    }
-    
-    public void setTipoUsuario (String tipoUsuario){
-        this.tipoUsuario = tipoUsuario;
-    }
+  public void setClaveUsuario (String claveUsuario){
+    this.claveUsuario = claveUsuario;
+  }
+  
+  public void setTipoUsuario (String tipoUsuario){
+    this.tipoUsuario = tipoUsuario;
+  }
 
-    public void setImagenUsuario (ImageIcon imagenUsuario){
-        this.imagenUsuario = imagenUsuario;
-    }
+  public void setImagenUsuario (ImageIcon imagenUsuario){
+    this.imagenUsuario = imagenUsuario;
+  }
 }
 ```
 
-Ahora vamos a simular un controlador de información externa de forma local, (esto por motivos de ejemplo) pero recuerden que normalmente la aplicación de interfaz gráfica se comunicara con Apis externas.
+Ahora se va a simular un controlador de información externa de forma local, (esto por motivos de ejemplo), normalmente la aplicación frontend se comunicara con Apis, servicios o bases de datos externas.
 
-Vamos a crear un nuevo paquete desde la carpeta raíz **src** la cual llamaremos **logic** y dentro crearemos una clase llamada **ControlUsuarios**, esta sera la clase encargada de obtener, contener y gestionar la información.
+Se crea un nuevo paquete desde la carpeta raíz **src** la cual será llamada **logic** y dentro se crea una clase llamada **ControlUsuarios**, esta será la clase encargada de obtener, contener y gestionar la información.
 
 <div align='center'>
     <img  src='https://i.imgur.com/4VzVvr1.png'>
     <p>Creación del paquete Logic y su controlador.</p>
 </div>
 
-Como el controlador va a contener la información esta va a obtenerla a través del archivo plano:
+Como el controlador va a contener la información, esta va a obtenerse a través del archivo plano:
 
 * Se declara una lista de Usuarios:
 ```javascript
@@ -624,7 +616,6 @@ private ArrayList<Usuario> usuarios;
 ```
 
 * Se ejemplifica el arreglo dinámico:
-
 ```javascript
 // Dentro del Constructor
 usuarios = new ArrayList<Usuario>();
@@ -632,78 +623,102 @@ usuarios = new ArrayList<Usuario>();
 
 * Se crea el método para cargar la información del archivo plano:
 ```javascript
-public void cargarDatos(){
-    File archivo = null;
-    FileReader fr = null;
-    BufferedReader br = null;
-    try {
-        archivo = new File ("Clase10/src/archives/usuarios.txt");
-        fr = new FileReader (archivo);
-        br = new BufferedReader(fr);
+public void cargarDatos() {
+  File archivo = null;
+  FileReader fr = null;
+  BufferedReader br = null;
+  try {
+    archivo = new File ("Clase10/src/archives/usuarios.txt");
+    fr = new FileReader (archivo);
+    br = new BufferedReader(fr);
 
-        String linea;
-        while((linea=br.readLine())!=null){
-            String[] atributos = linea.split(",");
-            Usuario usuario = new Usuario();
-            usuario.setNombreUsuario(atributos[0]);
-            usuario.setClaveUsuario(atributos[1]);
-            usuario.setTipoUsuario(atributos[2]);
-            usuario.setImagenUsuario(new ImageIcon(atributos[3]));
-            usuarios.add(usuario);
-        }
-        fr.close(); 
+    String linea;
+    while((linea=br.readLine())!=null) {
+      String[] atributos = linea.split(",");
+      Usuario usuario = new Usuario();
+      usuario.setNombreUsuario(atributos[0]);
+      usuario.setClaveUsuario(atributos[1]);
+      usuario.setTipoUsuario(atributos[2]);
+      usuario.setImagenUsuario(new ImageIcon(atributos[3]));
+      usuarios.add(usuario);
     }
-    catch(Exception e){
-        e.printStackTrace();
-    }
+    fr.close(); 
+  } catch(Exception e) {
+    e.printStackTrace();
+  }
 }
 ```
 
 * Se llama al método desde el constructor:
-
 ```javascript
 // Dentro del Constructor
 cargarDatos();
 ```
 
-Ahora vamos a crear el servicio **UsuarioService**
+* Se crea un método que recibe el nombre de un usuario y retorna un objeto de tipo Usuario en caso de que exista un usuario en la lista que coincida con el nombre:
+* **Declaración del método**
+```javascript
+public Usuario devolverUsuario(String nombreUsuario) {
+
+}
+```
+
+* **Se crea un ciclo que recorra la lista:**
+```javascript
+public Usuario devolverUsuario(String nombreUsuario) {
+  for (Usuario usuario : usuarios) {
+  
+  }
+}
+```
+***Nota:** En el anterior ciclo se esta recorriendo cada posición del arrayList, pero en vez de usar un **Contador** que pase por cada posición de la lista, se esta usando directamente una variable objeto de tipo **Usuario** (creado en el modelo), que se va a convertir en el objeto que esta en la posición donde se esta revisando actualmente, este ciclo es normalmente conocido como **for each** o **for of**.*
+* **Se realiza la validación:**
+```javascript
+public Usuario devolverUsuario(String nombreUsuario) {
+  for (Usuario usuario : usuarios) {
+    if (usuario.getNombreUsuario().equals(nombreUsuario))
+      return usuario;
+  }
+  return null;
+}
+```
+En este caso se pregunta si el objeto actual que se esta revisando en la lista tiene el nombre que coincide con el dato recibido como parámetro entonces retorne dicho objeto, de lo contrario retorne un dato nulo.
+
+Ahora se crea el servicio **UsuarioService**
 
 <div align='center'>
-    <img  src='https://i.imgur.com/v0bzfwv.png'>
+    <img  src='https://i.imgur.com/EksE4Ae.png'>
     <p>Creación del servicio UsuarioService</p>
 </div>
 
-Realizamos la estructura básica del servicio para ser obtenido:
-
+Se crea la estructura básica del servicio para ser obtenido:
 * Declaración de la referencia estática a si mismo: 
 ```javascript
 // Dentro del Servicio UsuarioService
 private static UsuarioService servicio;
 ```
 
-* Creamos el método estático para el control de una sola ejemplificación:
-
+* Método estático para el control de una sola ejemplificación:
 ```javascript
-public static UsuarioService getService(){
-    if(servicio == null)
-        servicio = new UsuarioService();
-    return servicio;
+public static UsuarioService getService() {
+  if(servicio == null)
+    servicio = new UsuarioService();
+  return servicio;
 }
 ```
 
-* El constructor lo dejamos publico como ya explicamos en la anterior sección.
+* El constructor se deja publico como ya se explico en la anterior sección.
 
-* Este servicio va contener dos atributos que serán de vital importancia, un atributo sera el objeto del controlador para que exista una comunicación hacia ese controlador, la otra sera un string que contiene que usuario sera logeado y se explicara su funcionalidad más adelante.
+* Este servicio va contener dos atributos que serán de vital importancia, un atributo será el objeto del controlador para que exista una comunicación hacia la entidad externa, el otro atributo es de tipo Usuario y se encargará de guardar en memoria que usuario ha iniciado sesión actualmente.
 
 * **Declaración:**
 ```javascript
 // Dentro del Servicio UsuarioService
 private ControlUsuarios cUsuario;
-private String usuarioLogeado;
+private Usuario usuarioConectado;
 ```
 
 * **Ejemplificación**
-
 ```javascript
 // Dentro del Constructor
 cUsuario = new ControlUsuarios();
@@ -711,81 +726,90 @@ cUsuario = new ControlUsuarios();
 
 ## Validación de usuarios
 
-Para realizar la validación se va a verificar tres cosas:
-* El nombre del usuario.
-* Contraseña del usuario.
-* Tipo del usuario.
+Para realizar la validación se va a verificar cuatro cosas:
+* Que todos los campos se hayan diligenciado.
+* Que el nombre del usuario coincida con algún registro.
+* Que la contraseña del usuario coincida con el nombre del usuario registrado.
+* Que el tipo del usuario coincida con el nombre y clave del usuario registrado.
 
 Para que una persona pueda ingresar a la aplicación debe proporcionar esos tres datos y estos deben estar guardados en el lugar de persistencia de datos (En este ejercicio el archivo plano), ademas de eso los 3 datos deben coincidir para un mismo usuario, de lo contrario no podrá entrar. 
 Sin embargo esta gestión de verificación del usuario no la debe realizar la parte Frontend de un proyecto, normalmente esto lo realiza el Backend y el proyecto del cliente solo recibe la respuesta de la validación una vez enviá los datos que el usuario ha proporcionado.
 
-Para simular esto vamos a realizar la respectiva validación dentro de la clase **ControlUsuarios** que recordemos es una clase externa del proyecto y solo la usamos por motivos de simulación de una aplicación real.
+Para simular esto, se va a realizar la respectiva validación dentro de la clase **ControlUsuarios** que recuerde, se supone es una clase externa del proyecto y solo se usa por motivos de simulación de una aplicación real.
 
-Dentro de esta clase vamos a crear el método **VerificarUsuario** el cual va a recibir por parámetros 
+Dentro de esta clase se va a crear el método **VerificarUsuario** el cual va a recibir por parámetros 
 * **String nombreUsuario**
 * **String claveUsuario** 
 * **String tipoUsuario**
 
-Y va a retornar un **Boolean** que indicara si la validación fue correcta o no.
+Y va a retornar un **Boolean** que indicará si la validación fue correcta o no.
 ```javascript
-public boolean verificarUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario){
+public boolean verificarUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario) {
 
 }
 ```
 
-Dentro de este método vamos a recorrer el arreglo de usuarios llamado **usuarios** esto mediante el siguiente ciclo:
+Dentro de este método se va a recorrer el arreglo de usuarios llamado **usuarios** esto mediante el siguiente ciclo:
 
 ```javascript
-public boolean verificarUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario){
-    for(Usuario usuario : usuarios){
+public boolean verificarUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario) {
+  for(Usuario usuario : usuarios) {
     
-    }
+  }
 }
 ```
-
-En el anterior ciclo estamos recorriendo cada posición del arrayList pero en vez de usar un **Contador** que pase por cada posición estamos usando directamente una variable objeto de tipo **Usuario** (creado en el modelo). Que se va a convertir directamente en cada objeto que esta en la posición que se esta revisando actualmente. Dentro de ese ciclo realizamos la respectiva validación:
+Dentro de ese ciclo se realiza la respectiva validación:
 ```javascript
-public boolean verificarUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario){
-    for(Usuario usuario : usuarios){
-        if(usuario.getNombreUsuario().equals(nombreUsuario))
-            if(usuario.getClaveUsuario().equals(claveUsuario))
-                if(usuario.getTipoUsuario().equals(tipoUsuario))
-                    return true;
-    }
-    return false;
+public boolean verificarUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario) {
+  for(Usuario usuario : usuarios) {
+    if(usuario.getNombreUsuario().equals(nombreUsuario))
+      if(usuario.getClaveUsuario().equals(claveUsuario))
+        if(usuario.getTipoUsuario().equals(tipoUsuario))
+          return true;
+  }
+  return false;
 }
 ```
 
-En la anterior validación estamos indicando que si en algún momento del recorrido del arreglo encuentra un objeto **Usuario** que cumple con la igualdad de los 3 datos dados por el usuario, se va a retornar un **True** indicando que se ha realizado la validación satisfactoriamente, en caso de no encontrar ningún objeto **Usuario** que cumpla con los requisitos se saldrá del ciclo y retornara un **False** indicando que el usuario no existe en el sistema.
+En la anterior validación se indica que si en algún momento del recorrido del arreglo encuentra un objeto **Usuario** que cumple con la igualdad de los 3 datos dados por el usuario, se va a retornar un **True** indicando que se ha realizado la validación satisfactoriamente, en caso de no encontrar ningún objeto **Usuario** que cumpla con los requisitos, saldrá del ciclo y retornara un **False** indicando que el usuario no existe en el sistema.
 
-Ahora vamos a ir a la clase del servicio **UsuarioService** que es la clase dentro del proyecto que se va a comunicar directamente con el control externo. Allí vamos a crear un nuevo método al cual llamaremos **verificarDatosUsuario** el cual recibirá de nuevo los tres datos que el usuario proporcionará y de igual forma retornara un **boolean**.
-
-```javascript
-public boolean verificarDatosUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario){
-
-}
-```
-
-Dentro vamos a realizar el llamado del método que validara los datos dentro del control y en caso de que la validación sea efectiva vamos a realizar una acción de suma importancia.
+Dentro de la clase del servicio **UsuarioService** (El cual ya es parte del proyecto) se crea un nuevo método llamado **verificarDatosUsuario** el cual recibirá de nuevo los tres datos que el usuario proporcionará y de igual forma retornará un **boolean**.
 
 ```javascript
-public boolean verificarDatosUsuario(String nombreUsuario, String claveUsuario, String tipoUsuario){
-    if(cUsuario.verificarUsuario(nombreUsuario, claveUsuario, tipoUsuario)){
-        this.usuarioLogeado = nombreUsuario;
-        return true;
-    }
-    return false;
+public boolean verificarDatosUsuario(
+  String nombreUsuario, String claveUsuario, String tipoUsuario
+) {
+
 }
 ```
 
-Noten que dentro del **If** hemos llamado al método del Controlador, en caso de que este retorne un **True** va a entrar dentro de las instrucciones dadas dentro de el, en este caso será que si el usuario efectivamente proporciono los datos de un usuario registrado va a igualar el atributo **usuarioLogeado** con el nombre del usuario que escribió el cliente.
-En caso de que la verificación haya retornado un **False** este método de igual forma retornara el **False**.
+Dentro se realiza el llamado del método que validará los datos dentro del control y en caso de que la validación sea efectiva se realiza una acción de suma importancia.
 
+```javascript
+public boolean verificarDatosUsuario(
+  String nombreUsuario, String claveUsuario, String tipoUsuario
+) {
+  if (cUsuario.verificarUsuario(nombreUsuario, claveUsuario, tipoUsuario)) {
+    this.usuarioConectado = cUsuario.devolverUsuario(nombreUsuario);
+    return true;
+  }
+  return false;
+}
+```
 
-El Servicio esta listo para realizar la verificación ahora es tiempo de ir al componente **Login** y hacer uso de este servicio. Lo primero que vamos a realizar es la obtención del servicio **UsuarioService** desde el componente, específicamente desde la clase **LoginComponent**. 
+Noten que dentro del **condicional** se ha llamado al método del Controlador encargado de la validación, en caso de que este retorne un **True** va a entrar dentro de las instrucciones dadas por el condicional, en este caso será que si el usuario efectivamente proporciono los datos de un usuario registrado va a realizar otra petición a la entidad externa pidiendo esta vez el objeto del usuario que coincida con el nombre proporcionado e igualandolo al atributo **usuarioConectado**.
+En caso de que la verificación haya retornado un **False** este método retornará un **False**.
+
+Por ultimo y para que el atributo **usuarioConectado** tenga validez en el futuro se crea un método que retorne este atributo:
+```javascript
+public Usuario getUsuarioConectado() {
+  return this.usuarioConectado;
+}
+```
+
+El Servicio esta listo para realizar la verificación ahora se debe configurar el componente **Login** para hacer uso de este servicio. Lo primero que se va a realizar es la obtención del servicio **UsuarioService** desde el componente, específicamente desde la clase **LoginComponent**. 
 
 * **Declaración:**
-
 ```javascript
 // Dentro de la clase LoginComponent
 private UsuarioService sUsuario;
@@ -796,22 +820,23 @@ private UsuarioService sUsuario;
 // Dentro del constructor
 sUsuario = UsuarioService.getService();
 ```
+***Nota:** Es importante aclarar que la obtención del servicio debe hacerse antes de cargar la parte gráfica del componente ya que se van a pedir datos al servicio para ser mostrados en pantalla y si se muestra primero el componente antes de obtener el servicio esta información no existirá y saldrá un error.*
 
-Recordando un poco, una vez el usuario oprime el botón de entrar dentro del Login el usuario podia ver un mensaje emergente que le indicaba los datos que había proporcionado y después entraba a la ventana principal.
+Recordando, una vez el usuario oprime el botón de entrar dentro del Login el usuario podia ver un mensaje emergente que le indicaba los datos que había proporcionado y después entraba a la ventana principal.
 
 <div align='center'>
     <img  src='https://i.imgur.com/83tkod4.png'>
     <p>Evento una vez se oprime el botón entrar del Login</p>
 </div>
 
-Bueno ahora vamos a cambiar un poco esa funcionalidad, ya no vamos a mostrar esos datos, eso solo se hizo como una prueba para ver como se realizaba el recibimiento de información desde la parte gráfica. Para empezar vamos a cambiar el nombre del método **mostrarDatosUsuario** por **enviarDatosUsuario**, y vamos a quitar el llamado del método entrar, ya que ahora solo podrá entrar en el caso de que el usuario este registrado.
+Esta funcionalidad debe cambiar, ya no se van a mostrar esos datos, eso solo se hizo como una prueba para ver como se realizaba el recibimiento de información desde la parte gráfica. Para empezar se va a cambiar el nombre del método **mostrarDatosUsuario** por **enviarDatosUsuario**, y se va a quitar el llamado del método entrar, ya que ahora solo podrá entrar en el caso de que el usuario este registrado.
 
 ```javascript
 @Override
 public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == loginTemplate.getBEntrar())
-        this.enviarDatosUsuario();
-    ...
+  if (e.getSource() == loginTemplate.getBEntrar())
+    this.enviarDatosUsuario();
+  ...
 ```
 ```javascript
 public void enviarDatosUsuario() {
@@ -819,32 +844,47 @@ public void enviarDatosUsuario() {
 }
 ```
 
-Dentro del método enviarDatosUsuario vamos a dejar la obtención de los datos de las dos cajas de texto y del combobox, el resto no será necesario.
+Dentro del método enviarDatosUsuario se va a dejar unicamente la obtención de los datos de los dos campos de texto y del combobox, el resto no será necesario.
 
 ```javascript
 public void enviarDatosUsuario() {
-    String nombreUsuario = loginTemplate.getTNombreUsuario().getText();
-    String claveUsuario = new String(loginTemplate.getTClaveUsuario().getPassword());
-    String tipoUsuario = ((String) loginTemplate.getCbTipoUsuario().getSelectedItem());
+  String nombreUsuario = loginTemplate.getTNombreUsuario().getText();
+  String claveUsuario = new String(loginTemplate.getTClaveUsuario().getPassword());
+  String tipoUsuario = ((String) loginTemplate.getCbTipoUsuario().getSelectedItem());
 }
 ```
 
-Ahora vamos a enviar los datos al servicio **UsuarioService** para realizar la respectiva validación, en caso de ser verificado satisfactoriamente mostrará un mensaje indicando el ingreso exitoso y entrara a la vista principal, en el caso contrario mostrará un mensaje indicando que algo ha salido mal.
+Ahora se va a realizar una validación inicial donde se comprueba que el usuario haya proporcionado todos los datos, en caso contrario que muestre un mensaje de advertencia:
+```javascript
+public void enviarDatosUsuario() {
+  String nombreUsuario = loginTemplate.getTNombreUsuario().getText();
+  String claveUsuario = new String(loginTemplate.getTClaveUsuario().getPassword());
+  String tipoUsuario = ((String) loginTemplate.getCbTipoUsuario().getSelectedItem());
+  if(!nombreUsuario.isBlank() && !claveUsuario.isBlank()) {
+  
+  } else
+    JOptionPane.showMessageDialog(null, "No puede dejar un campo vacio", "Advertencia", 2);
+}
+```
+
+Si el usuario proporcionó todos los datos, se van a enviar al servicio **UsuarioService** para realizar la respectiva validación, en caso de ser verificado satisfactoriamente mostrará un mensaje indicando el ingreso exitoso y entrará a la vista principal, en el caso contrario mostrará un mensaje indicando que algo ha salido mal.
 
 ```javascript
 public void enviarDatosUsuario() {
-    String nombreUsuario = loginTemplate.getTNombreUsuario().getText();
-    String claveUsuario = new String(loginTemplate.getTClaveUsuario().getPassword());
-    String tipoUsuario = ((String) loginTemplate.getCbTipoUsuario().getSelectedItem());
-    if(sUsuario.verificarDatosUsuario(nombreUsuario, claveUsuario, tipoUsuario)){
-        JOptionPane.showMessageDialog(null, "Ingreso Exitoso", "Advertencia", 1);
-        entrar();
-    }
-    else
-        JOptionPane.showMessageDialog(null, "Algo quedo mal", "Advertencia", 2);
+  String nombreUsuario = loginTemplate.getTNombreUsuario().getText();
+  String claveUsuario = new String(loginTemplate.getTClaveUsuario().getPassword());
+  String tipoUsuario = ((String) loginTemplate.getCbTipoUsuario().getSelectedItem());
+  if(!nombreUsuario.isBlank() && !claveUsuario.isBlank()) {
+    if (sUsuario.verificarDatosUsuario(nombreUsuario, claveUsuario, tipoUsuario)) {
+      JOptionPane.showMessageDialog(null, "Ingreso Exitoso", "Advertencia", 1);
+      entrar();
+    } else
+      JOptionPane.showMessageDialog(null, "Algo quedo mal", "Advertencia", 2);
+  } else
+    JOptionPane.showMessageDialog(null, "No puede dejar un campo vacio", "Advertencia", 2);
 }
 ```
-Una vez ejecutamos el programa podemos verificar su funcionamiento:
+Una vez se ejecuta el programa es posible verificar su funcionamiento:
 
 <div align='center'>
     <img  src='https://i.imgur.com/lc3L4ko.png'>
@@ -856,45 +896,28 @@ Una vez ejecutamos el programa podemos verificar su funcionamiento:
     <p>Caso fallido de ingreso de usuario</p>
 </div>
 
-Ahora queremos que una vez el usuario haya entrado exitosamente los datos de este como el nombre del usuario y la foto del perfil se vean en la navegación del usuario, por el momento solo hemos utilizado una imagen y un texto de forma estática:
+<div align='center'>
+    <img  src='https://i.imgur.com/aFORSjF.png'>
+    <p>Caso fallido de ingreso de usuario</p>
+</div>
+
+Ahora se quiere que una vez el usuario haya entrado exitosamente, los datos de este como el nombre del usuario y la foto del perfil puedan observarse en la navegación del usuario, por el momento solo se esta utilizado una imagen y un texto de forma estática:
 
 <div align='center'>
     <img  src='https://i.imgur.com/gdH5Mdz.png'>
     <p>Información estática del usuario</p>
 </div>
 
-Para cambiar esta información vamos a llamar al servicio **UsuarioService** desde el componente **NavegaciónUsuario** para conseguir los datos del usuario que se ha logueado. Pero primero vamos a configurar al controlador **ControlUSuarios** creando un método que retorne a un usuario de acuerdo a su nombre, vamos entonces a la clase **ControlUsuarios** y realizamos el siguiente método:
+Para cambiar esta información se debe llamar al servicio **UsuarioService** desde el componente **NavegaciónUsuario** para conseguir los datos del usuario que se ha conectado. De hecho toda la estructura tanto en el controlador como en el servicio esta lista para realizar esta acción.
 
-```javascript
-// Dentro de la clase ControlUsuarios
-public Usuario devolverUsuario(String nombreUsuario){
-    for(Usuario usuario : usuarios){
-        if(usuario.getNombreUsuario().equals(nombreUsuario))
-            return usuario;
-    }
-    return null;
-}
-```
-
-En el anterior método **devolverUsuario** recibimos por parámetro un String que representa el nombre del usuario y va a recorrer el arreglo de usuarios, en caso de que un objeto **Usuario** coincida en su nombre con el que se envió por parámetro va a retornar ese objeto, en el caso contrario retornara un null.
-
-Ahora dentro del servicio **UsuarioService** crearemos un método para poder obtener dicho usuario:
-
-```javascript
-// Dentro del servicio UsuarioService
-public Usuario getUsuarioLogeado(){
-    return cUsuario.devolverUsuario(usuarioLogeado);
-}
-```
-
-En este caso le vamos a enviar como argumento al método del controlador el atributo **usuarioLogeado** que si recordamos, le habíamos dado un valor justo en el momento en que el login se verifico de forma exitosa:
+En este caso se debe llamar al método **getUsuarioConectado** que retornará el objeto del usuario que actualmente ha iniciado sesión, recuerde que este atributo se estableció en el momento en que la verificación del usuario fue exitosa:
 
 <div align='center'>
-    <img  src='https://i.imgur.com/kP5PTWp.png'>
-    <p>Momento en el que se le dio valor al atributo usuarioLogeado</p>
+    <img  src='https://i.imgur.com/P9rP0VV.png'>
+    <p>Momento en el que se le dio valor al atributo usuarioConectado</p>
 </div>
 
-Mas adelante se explicara por que se realiza esta metodología, por ahora vamos a hacer uso del servicio.
+Mas adelante se realiza una reflexión de por que se realiza esta metodología, por ahora se va a hacer uso del servicio.
 
 Dentro de la clase **NavegacionUsuarioComponent** vamos a realizar la obtención del servicio;
 
@@ -909,174 +932,173 @@ private UsuarioService sUsuario;
 // Dentro del Constructor
 this.sUsuario = UsuarioService.getService();
 ```
+***Nota:** Es importante aclarar que la obtención del servicio debe hacerse antes de cargar la parte gráfica del componente ya que se van a pedir datos al servicio para ser mostrados en pantalla y si se muestra primero el componente antes de obtener el servicio esta información no existirá y saldrá un error.*
 
-Vamos a crear un atributo que se llamara **usuarioLogeado** y sera de tipo **Usuario**, una vez declarado, usaremos el servicio **UsuarioService** para obtener el objeto del usuario logueado. 
+Se crea un atributo que se llamara **usuarioConectado** y sera de tipo **Usuario**, una vez declarado, se usa el servicio **UsuarioService** para obtener el objeto del usuario conectado. 
 
 * **Declaración:**
 ```javascript
 // Dentro de la clase NavegacionUsuarioComponent
-private Usuario usuarioLogeado;
+private Usuario usuarioConectado;
 ```
 
 * **Obtención del objeto del usuario que ha ingresado:**
 ```javascript
 // Dentro del constructor
-this.usuarioLogeado = sUsuario.getUsuarioLogeado();
+this.usuarioConectado = sUsuario.getUsuarioConectado();
 ```
-Finalmente vamos a crear su método **get**, esto para que pueda ser obtenido por su clase compañera **Template**:
+Finalmente vamos a crear su método **get**, esto para que pueda ser obtenido por su clase gráfica **Template**:
 
 ```javascript
 public Usuario getUsuario(){
-    return this.usuarioLogeado;
+  return this.usuarioConectado;
 }
 ```
 
-Finalmente nos ubicamos dentro de la clase **NavegacióUsuarioTemplate** y vamos a realizar unos pequeños cambios con los label que muestran la imagen y nombre del usuario:
+Finalmente dentro de la clase **NavegacióUsuarioTemplate** se realizan unos pequeños cambios con los label que muestran la imagen y nombre del usuario:
 
 <div align='center'>
-    <img  src='https://i.imgur.com/ViQ0RWf.png'>
+    <img  src='https://i.imgur.com/bqJKksQ.png'>
     <p>Cambios en los labels dentro del método crearJLabels de la clase NavegacionUsuarioTemplate</p>
 </div>
 
-Noten que en el caso del Label **lNombreUsuario** Ahora enviamos como argumento en el texto al nombre del usuario que obtenemos a través de la clase **Component**. Lo mismo pasa con la imagen, cuando la vamos a redimensionar llamamos a la imagen del objeto del usuario que obtenemos a través de la clase **Component**.
+Noten que en el caso del Label **lNombreUsuario** Ahora se enviá como argumento en el texto al nombre del usuario que se obtiene a través de la clase **Component**. Lo mismo pasa con la imagen, cuando se va a redimensionar se llama a la imagen del objeto del usuario que se obtiene a través de la clase **Component**.
 
-Vamos a realizar unas pruebas a ver que sucede:
+Se realizan algunas pruebas a ver que sucede:
 
 <div align='center'>
-    <img  src='https://i.imgur.com/2dfZVvD.png'>
+    <img  src='https://i.imgur.com/YSyuQHW.png'>
     <p>Prueba 1 de ingreso de usuario</p>
 </div>
 
 <div align='center'>
-    <img  src='https://i.imgur.com/DbFd0mm.png'>
+    <img  src='https://i.imgur.com/pMWxj6x.png'>
     <p>Prueba 2 de ingreso de usuario</p>
 </div>
 
-Esto funciona como esperábamos, sin embargo las dos pruebas anteriores se realizaron por separado, en el caso en que desde una sola ejecución del programa un usuario ingrese, cierre sesión y después entre otro usuario, se van a ver los datos del anterior usuario. Esto es por que el programa requiere de una actualización no solo de esa parte, también existen otras partes que requieren ser actualizadas y se mencionaran en la siguiente sección.
+Esto funciona como se esperaba, sin embargo, las dos pruebas anteriores se realizaron por separado (en diferentes ejecuciones), en el caso en que desde una sola ejecución del programa un usuario ingrese, cierre sesión y después entre otro usuario, se van a ver los datos del anterior usuario. Esto es por que el programa requiere de una actualización no solo de este componente, también existen otras partes que requieren ser actualizadas y se mencionaran en la siguiente sección.
 
-Por otro lado el uso del servicio **UsuarioService** cobra vital importancia ya que es un servicio que se esta utilizando en varias partes del proyecto, en este caso lo usamos en el componente **login** y el componente **navegacionUsuario** y posiblemente se pueda usar en el componente **perfil** también. Noten que ambos componentes usaron el servicio de forma independiente sin tener que estar comunicados entre ellos, en este caso el uso del atributo **usuarioLogeado** fue crucial para realizar esta independencia, si no existiera este atributo no habría manera de que el componente **navegacionUsuario** sepa que usuario ha ingresado, la única forma de poder saberlo sin el uso del servicio es que el componente **login** le pase el dato del usuario que ingreso al componente **vistaPrincipal** y luego este ultimo se lo pase al componente **navegacionUsuario** y se formaría una dependencia entre componentes muy alta y solo en este caso, imaginen con otras acciones cuanta dependencia mas habría. Es por eso que el uso de servicios se hace especialmente importante en estos casos, siempre hay que encontrar la manera de que estos servicios puedan proporcionar independencia del uso de la información a través de el y evitar el acoplamiento y envió de información entre componentes que no estar correlacionados.
+Por otro lado el uso del servicio **UsuarioService** cobra vital importancia ya que es un servicio que se esta utilizando en varias partes del proyecto, en este caso fue usado en el componente **login** y el componente **navegacionUsuario** y posiblemente se pueda usar en el componente **perfil** también. Note que ambos componentes usaron el servicio de forma independiente sin tener que estar comunicados entre ellos, en este caso el uso del atributo **usuarioConectado** fue crucial para realizar esta independencia, si no existiera este atributo no habría manera de que el componente **navegacionUsuario** sepa que usuario ha ingresado, la única forma de poder saberlo sin el uso del servicio es que el componente **login** le pase el dato del usuario que ingreso al componente **vistaPrincipal** y luego este ultimo se lo pase al componente **navegacionUsuario** y se formaría una dependencia entre componentes muy alta e innecesaria y solo en este caso pequeño, imagine con otras acciones cuanta dependencia mas habría. Es por eso que el uso de servicios se hace especialmente importante en estos casos, siempre hay que encontrar la manera de que estos servicios puedan proporcionar independencia del uso de la información a través de el y evitar el acoplamiento y envió de información entre componentes que no estar correlacionados.
 
 # Ajustes del proyecto para el uso de servicios
 
 Como se menciono en la anterior sección, hay partes del proyecto que requieren una actualización, a continuación se mencionan algunas de ellas:
 * Cuando dos usuarios entran al sistema a través del login, es necesario actualizar los datos del componente **navegacionUsuario** para que se vean los datos del ultimo usuario que ingreso.
-* Cuando un usuario cierra sesión y se ve nuevamente el Login, este tiene aun los datos que escribió el usuario cuando ingreso, se debería ver justo como cuando se inicia la aplicación
-* Cuando ingresamos por segunda vez en una misma ejecución a la vista principal, no se muestra el componente **inicio** y se ve vacía la parte del panel principal.
+* Cuando un usuario cierra sesión y se ve nuevamente el Login, los campos de texto aun tienen los datos que escribió el usuario cuando ingreso, se debería ver justo como cuando se inicia la aplicación
+* Cuando se ingresa por segunda vez en una misma ejecución a la vista principal, no se muestra el componente **inicio** y se ve vacía la parte del panel principal.
 
-Vamos a realizar estas respectivas actualizaciones. Empecemos con el componente **login**, vamos a crear un método que se va a llamar **restaurarValores**, dentro de este vamos a dejar todo como cuando el usuario ejecuta la aplicación. 
+En esta sección se van a realizar estas respectivas actualizaciones. Dentro del componente **login**, se crea un método llamado **restaurarValores**, dentro de este se debe dejar todo como cuando el usuario ejecuta la aplicación. 
 
 Esto incluye: 
-* Dejar el **JTextField tNombreUsuario** con el placeholder **Nombre Usuario** y el **JPasswordField tClaveUsuario** con el placeholder **calve Usuario**.
+* Dejar el **JTextField tNombreUsuario** con el placeholder **Nombre Usuario** y el **JPasswordField tClaveUsuario** con el placeholder **Calve Usuario**.
 * Dejar el **JTextField tNombreUsuario y el JPasswordField** con el borde gris de nuevo.
 * Dejar el **JTextField tNombreUsuario y el JPasswordField** con el color de letra gris de nuevo.
 * Dejar el **ComboBox cmbTipoUsuario** con la primera selección de nuevo.
 
 ```javascript
 public void restaurarValores(){
-    this.getLoginTemplate().getTNombreUsuario().setText("Nombre Usuario");
-    this.getLoginTemplate().getTNombreUsuario().setBorder(
-        this.getLoginTemplate().getRecursosService().getBorderInferiorGris()
-    );
-    this.getLoginTemplate().getTNombreUsuario().setForeground(
-        this.getLoginTemplate().getRecursosService().getColorGrisOscuro()
-    );
-    this.getLoginTemplate().getTClaveUsuario().setText("clave Usuario");
-    this.getLoginTemplate().getTClaveUsuario().setBorder(
-        this.getLoginTemplate().getRecursosService().getBorderInferiorGris()
-    );
-    this.getLoginTemplate().getTClaveUsuario().setForeground(
-        this.getLoginTemplate().getRecursosService().getColorGrisOscuro()
-    );
-    this.getLoginTemplate().getCbTipoUsuario().setSelectedIndex(0);
+  this.getLoginTemplate().getTNombreUsuario().setText("Nombre Usuario");
+  this.getLoginTemplate().getTNombreUsuario().setBorder(
+      this.getLoginTemplate().getRecursosService().getBorderInferiorGris()
+  );
+  this.getLoginTemplate().getTNombreUsuario().setForeground(
+      this.getLoginTemplate().getRecursosService().getColorGrisOscuro()
+  );
+  this.getLoginTemplate().getTClaveUsuario().setText("Clave Usuario");
+  this.getLoginTemplate().getTClaveUsuario().setBorder(
+      this.getLoginTemplate().getRecursosService().getBorderInferiorGris()
+  );
+  this.getLoginTemplate().getTClaveUsuario().setForeground(
+      this.getLoginTemplate().getRecursosService().getColorGrisOscuro()
+  );
+  this.getLoginTemplate().getCbTipoUsuario().setSelectedIndex(0);
 }
 ```
 
-Ahora cuando cerremos sesión dentro de la **ventana principal** vamos a llamar a este método:
+Ahora cuando se cierre sesión dentro de la **ventana principal** específicamente en la clase **VistaPrincipalComponent** en su método **mostrarComponentes** se va a llamar a este método:
 
 <div align='center'>
     <img  src='https://i.imgur.com/0M6ATxH.png'>
     <p>Llamada del método restaurar valores del componente Login</p>
 </div>
 
-Ahora vamos con el componente **VistaPrincipal**, en este caso queremos que cada vez que se inicie sesión siempre se vea el componente **Inicio** dentro de la ventana principal. De la misma manera, vamos a crear un método llamado **restaurarValores** dentro de la clase **VistaPrincipalComponent**:
-
+Dentro del componente **VistaPrincipal**, en este caso se quiere que cada vez que se inicie sesión siempre se vea el componente **Inicio** dentro de la ventana principal. De la misma manera, se crea un método llamado **restaurarValores** dentro de la clase **VistaPrincipalComponent**:
 ```javascript
 public void restaurarValores(){
 }
 ```
 
-En este caso solo llamaremos al panel **pPrincipal** y le indicaremos que incorpore el componente **Inicio** esto a través del objeto de su clase compañera **VistaPrincipalTemplate**:
+En este caso solo se llamará al panel **pPrincipal** y se le indica que incorpore el componente **Inicio** esto a través del objeto de su clase compañera **VistaPrincipalTemplate**:
 
 ```javascript
 public void restaurarValores(){
-    this.vistaPrincipalTemplate.getPPrincipal().add(inicioComponent.getInicioTemplate());
+  this.vistaPrincipalTemplate.getPPrincipal().add(inicioComponent.getInicioTemplate());
 }
 ```
 
-Ahora debemos llamarlo desde el **login** cada vez que se quiera ingresar:
+Ahora se debe llamar desde el **login** cada vez que se quiera ingresar:
 
 <div align='center'>
     <img  src='https://i.imgur.com/emMxtUj.png'>
     <p>llamada del método restaurarValores de la vistaPrincipal</p>
 </div>
 
-Solo nos queda actualizar el componente **NavegaciónUsuario**, dentro de la clase **NavegaciónUsuarioComponent** vamos a crear el método **ActualizarValores**:
+Solo nos queda actualizar el componente **NavegaciónUsuario**, dentro de la clase **NavegaciónUsuarioComponent** se va a crear el método **ActualizarValores**:
 
 ```javascript
 public void actualizarValores (){
 }
 ```
 
-* Lo primero que debemos hacer es actualizar el usuario que ha ingresado actualmente, para esto llamamos al servicio **UsuarioService** nuevamente:
+* Lo primero que se debe hacer es actualizar el usuario que ha ingresado actualmente, para esto se llama al servicio **UsuarioService** nuevamente:
 
 ```javascript
 public void actualizarValores (){
-    this.usuarioLogeado = sUsuario.getUsuarioLogeado();
+  this.usuarioConectado = sUsuario.getUsuarioConectado();
 }
 ```
 
-* Debemos remover todo lo que este en el panel **pPrincipal** ya que va a mostrar información nueva:
+* Es necesario remover todo lo que este en el panel **pSuperior** ya que va a mostrar información nueva:
 
 ```javascript
 public void actualizarValores (){
-    this.usuarioLogeado = sUsuario.getUsuarioLogeado();
-    this.navegacionUsuarioTemplate.getPSuperior().removeAll();
+  this.usuarioConectado = sUsuario.getUsuarioConectado();
+  this.navegacionUsuarioTemplate.getPSuperior().removeAll();
 }
 ```
 
-* Una vez se ha retirado todo del panel volvemos a llamar al método **crearJLabels** el cual tomaba los datos del objeto **Usuario** que acaba de actualizarse:
+* Una vez se ha retirado todo del panel se llama al método **crearJLabels** el cual tomaba los datos del objeto **Usuario** que acaba de actualizarse:
 ```javascript
 public void actualizarValores (){
-    this.usuarioLogeado = sUsuario.getUsuarioLogeado();
-    this.navegacionUsuarioTemplate.getPSuperior().removeAll();
-    this.navegacionUsuarioTemplate.crearJLabels();
+  this.usuarioConectado = sUsuario.getUsuarioConectado();
+  this.navegacionUsuarioTemplate.getPSuperior().removeAll();
+  this.navegacionUsuarioTemplate.crearJLabels();
 }
 ```
 
-* Finalmente y para asegurarnos de que el cambio se vera llamamos al método **repaint** para que realice la actualización de la ventana.
-
+* Finalmente y para asegurarse de que el cambio se verá reflejado, se llama al método **repaint** para que realice la actualización de la ventana.
 ```javascript
 public void actualizarValores (){
-    this.usuarioLogeado = sUsuario.getUsuarioLogeado();
-    this.navegacionUsuarioTemplate.getPSuperior().removeAll();
-    this.navegacionUsuarioTemplate.crearJLabels();
-    this.navegacionUsuarioTemplate.repaint();
+  this.usuarioConectado = sUsuario.getUsuarioConectado();
+  this.navegacionUsuarioTemplate.getPSuperior().removeAll();
+  this.navegacionUsuarioTemplate.crearJLabels();
+  this.navegacionUsuarioTemplate.repaint();
 }
 ```
 
-Ya esta lista la actualización, solo falta que sea llamado este método, podemos aprovechar el método **restaurarValores** de la vista principal para que de una vez realice la actualización del componente **navegacionUsuario**.
+Ya esta lista la actualización, solo falta que sea llamado este método, es posible aprovechar el método **restaurarValores** de la vista principal para que de una vez realice la actualización del componente **navegacionUsuario**.
 
 <div align='center'>
     <img  src='https://i.imgur.com/PR22R2M.png'>
     <p>Llamada del método Actualizar Datos del componente NavegacionUsuario</p>
 </div>
 
-Ya realizamos los ajustes necesarios y el programa funciona de maravilla. Ahora podemos ingresar varias veces a la ventana principal desde una sola ejecución y con varios usuario y siempre mostrara la información del usuario que acaba de ingresar, también podemos notar que en la vista principal siempre estará incorporado el componente **inicio**. Por otro lado, una vez cerremos sesión el Login de usuario se vera con los valores iniciales a cuando ejecutamos por primera vez la aplicación.
+Ya se realizaron los ajustes necesarios y el programa funciona correctamente. Ahora es posible ingresar varias veces a la ventana principal desde una sola ejecución y con varios usuario y siempre mostrara la información del usuario que acaba de ingresar, también se puede notar que en la vista principal siempre estará incorporado el componente **inicio**. Por otro lado, una vez se cierra sesión el Login de usuario se verá con los valores iniciales.
 
 # Resultado
 
-Si has llegado hasta aquí **!Felicidades!** ya has aprendido como crear, cuando utilizar y como funcionan los **Servicios** dentro de la arquitectura. Aprendiste como gestionar un flujo de información externa de forma en que cada componente sera independiente en cuanto a obtener o enviar información a través del uso de servicios. Aprendiste ademas, las características principales de los **Servicios**. En la proxima clase seguiremos usando servicios para revisar un objeto Gráfico particular, estos son las **JTables**.
+Si has llegado hasta aquí **!Felicidades!** se ha aprendido como crear, cuando utilizar y como funcionan los **Servicios** dentro de la arquitectura. Se aprendió como gestionar un flujo de información externa de forma en que cada componente sea independiente en cuanto a obtener o enviar información a través del uso de servicios. Se aprendió ademas, las características principales de los **Servicios**. En la proxima clase se sigue usando servicios para revisar un objeto Gráfico particular, estos son las **JTables**.
 
 # Actividad 
 
-Implementar el uso de **Servicios** en sus proyectos para la gestión de la información externa.
+Implementar el uso de **Servicios Lógicos** en los proyectos para la gestión de la información externa.
