@@ -21,7 +21,7 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 ___
 Para continuar con el ejercicio deberá actualizar la carpeta **resources/images/perfiles** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase10** seguido de **resources/images/perfiles**.
 
-### **Actualización de Imágenes en recursos**
+### **Estructura del proyecto**
 ___
 Se puede observar mediante un modelo estructural general como es la estructura del proyecto hasta el momento:
 
