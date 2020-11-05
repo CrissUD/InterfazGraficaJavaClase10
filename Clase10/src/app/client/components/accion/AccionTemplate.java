@@ -75,5 +75,4 @@ public class AccionTemplate extends JPanel {
     this.setLayout(null);
     this.setVisible(true);
   }
-  
 }
